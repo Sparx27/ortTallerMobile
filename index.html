@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="./scripts/main.js" type="module" defer></script>
+  <link rel="stylesheet" href="./styles.css">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="toaster-container">
+    <div id="toaster">
+      <p id="toasterMensaje"></p>
+    </div>
+  </div>
+
+  <header>
+    <button id="navHome">Home</button>
+    <button id="navAgregarEvento">Agregar Evento</button>
+    <button id="navLogin">Login</button>
+    <button id="navRegistro">Registro</button>
+    <button id="navLogout">Logout</button>
+  </header>
+
+  <main>
+    <figure id="loaderContainer">
+      <img id="loader" src="./loader.gif" alt="loader">
+    </figure>
+
+    <section id="home">
+      <p>el'home</p>
+      <h1>Eventos</h1>
+      <p id="pMensajeEventos"></p>
+      <div id="divEventos"></div>
+    </section>
+
+    <section id="agregarEvento">
+      <h1>Agregar Evento</h1>
+      <p id="pMensajeAgregarEvento"></p>
+      <form id="formAgregarEvento">
+        <select id="idCategoriaAgregarEvento"></select>
+        <input id="detalleAgregarEvento" type="text" placeholder="detalle">
+        <input id="fechaAgregarEvento" type="datetime-local">
+        <input type="submit" value="Agregar">
+      </form>
+    </section>
+
+    <section id="registro">
+      <h1>Registro</h1>
+      <p id="pRegistroMensaje"></p>
+      <form id="formRegistro">
+        <input id="usuarioRegistro" type="text" placeholder="usuario (*)"><br />
+        <input id="passwordRegistro" type="password" placeholder="password (*)"><br />
+        <input id="passwordRegistro2" type="password" placeholder="Confirme su password (*)"><br />
+        <select id="idDepartamentoRegistro">
+          <option value="">--Seleccionar--</option>
+        </select><br />
+        <select style="display: none" id="idCiudadRegistro">
+          <option value="">--Seleccionar--</option>
+        </select><br />
+        <input type="submit" value="Registrar">
+      </form>
+    </section>
+
+    <section id="login">
+      <h1>LogIn</h1>
+      <p id="pLoginMensaje"></p>
+      <form id="formLogin">
+        <input id="usuarioLogin" type="text" placeholder="usuario">
+        <input id="passwordLogin" type="password" placeholder="password"><br />
+        <input type="submit" value="Ingresar">
+      </form>
+    </section>
+  </main>
+</body>
+
+</html>
