@@ -86,6 +86,7 @@ function borrarEvento(e) {
       if (data.codigo != 200) {
         return Promise.reject(data)
       }
+      showToaster(data.mensaje)
       hideLoader()
       mostrarEventos()
     })
