@@ -28,6 +28,10 @@ selector("#formAgregarEvento").addEventListener("submit", (e) => {
     showToaster("Por favor, ingrese un detalle o una categoría")
     hideLoader()
   }
+  else if (new Date(fecha) > new Date()) {
+    showToaster("La fecha y hora ingresada, no puede ser posterior a la actual")
+    hideLoader()
+  }
   else {
     fetch(URL + "/eventos.php", {
       method: "Post",

@@ -54,8 +54,13 @@ async function mostrarEventos() {
   try {
     const [eventos, categorias] = await Promise.all([obtenerEventos(), getCategorias()])
 
+    console.log(eventos)
+
+
     if (eventos) {
-      console.log("if(eventos")
+      //Ordenar eventos por fechas y hora
+      eventos.sort((a, b) => new Date(a.fecha) - new Date(b.fecha))
+
       eventos.forEach(e => {
         selector("#divEventos").innerHTML += `
         <article class="eventoCard">
@@ -73,12 +78,10 @@ async function mostrarEventos() {
       })
     }
     else {
-      console.log("else(eventos")
       selector("#divEventos").innerHTML = "Aún no se han agregado eventos"
     }
   }
   finally {
-    console.log("dsp if/else (eventos")
     hideLoader()
   }
 }
