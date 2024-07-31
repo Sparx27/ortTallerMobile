@@ -30,19 +30,40 @@ function hideLoader() {
   selector("#loaderContainer").style.display = "none"
 }
 
+let toastShowId = null
+let toastShow = function (toaster) {
+  toaster.classList.add("toaster-show")
+  let crearSet = setTimeout(() => {
+    toaster.classList.remove("toaster-show")
+  }, 3000)
+  toastShowId = crearSet
+}
+
+let toastMessageId = null
+let toastMessageClear = function () {
+  let crearSet = setTimeout(() => {
+    toasterMensaje.innerHTML = ""
+  }, 4500)
+  toastMessageId = crearSet
+}
+
 function showToaster(mensaje) {
   const toaster = selector("#toaster")
   const toasterMensaje = selector("#toasterMensaje")
 
+  if (toastShowId) {
+    clearTimeout(toastShowId)
+    toastShowId = null
+  }
+  if (toastMessageId) {
+    clearTimeout(toastMessageId)
+    toastMessageId = null
+  }
+
   toasterMensaje.innerHTML = mensaje
 
-  toaster.classList.add("toaster-show")
-  setTimeout(() => {
-    toaster.classList.remove("toaster-show")
-  }, 3000)
-  setTimeout(() => {
-    toasterMensaje.innerHTML = ""
-  }, 4500)
+  toastShow(toaster)
+  toastMessageClear()
 }
 
 function limpiarInputs(arr) {

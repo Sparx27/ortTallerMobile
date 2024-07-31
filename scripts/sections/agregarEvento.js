@@ -1,4 +1,4 @@
-import { URL, selector, selectorValue, mostrarSeccion, isNullOrEmpty, showLoader, hideLoader, showToaster } from '../helpers.js'
+import { URL, selector, selectorValue, mostrarSeccion, isNullOrEmpty, showLoader, hideLoader, showToaster, limpiarInputs } from '../helpers.js'
 import { getUsuario } from '../usuario.js'
 
 selector("#navAgregarEvento").addEventListener("click", () => {
@@ -8,6 +8,7 @@ selector("#navAgregarEvento").addEventListener("click", () => {
 
 selector("#formAgregarEvento").addEventListener("submit", (e) => {
   e.preventDefault()
+  showLoader()
   const usuario = getUsuario()
   let idCategoria = null
   if (Number(selectorValue("#idCategoriaAgregarEvento")) != 0) {
@@ -20,6 +21,7 @@ selector("#formAgregarEvento").addEventListener("submit", (e) => {
 
   if (isNullOrEmpty(detalle) && idCategoria == null) {
     showToaster("Por favor, ingrese un detalle o una categoría")
+    hideLoader()
   }
   else {
     fetch(URL + "/eventos.php", {
@@ -43,13 +45,20 @@ selector("#formAgregarEvento").addEventListener("submit", (e) => {
         }
 
         showToaster(data.mensaje)
+        limpiarInputs([
+          selector("#idCategoriaAgregarEvento"),
+          selector("#detalleAgregarEvento"),
+          selector("#fechaAgregarEvento")
+        ])
+        hideLoader()
       })
       .catch(dataError => {
+        hideLoader()
         if (dataError.mensaje) {
           showToaster(dataError.mensaje)
         }
         else {
-          showToaster("Disculpe, algo no salio correctamente")
+          showToaster("Disculpe, algo en agregar evento, no salio correctamente")
         }
       })
   }

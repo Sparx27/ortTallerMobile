@@ -52,7 +52,7 @@ select {
   position: absolute;
   top: 50px;
   left: 0;
-  width: 100vw;
+  width: 100%;
   height: 150px;
   overflow-x: hidden;
 }
@@ -70,7 +70,7 @@ select {
   background-color: rgb(218, 218, 15);
   text-align: center;
   transform: translateX(105%);
-  transition: .6s ease;
+  transition: .2s ease;
 }
 
 .toaster-show {
