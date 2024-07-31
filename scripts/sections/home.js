@@ -45,21 +45,26 @@ async function mostrarEventos() {
 
   const [eventos, categorias] = await Promise.all([obtenerEventos(), getCategorias()])
 
-  eventos.forEach(e => {
-    selector("#divEventos").innerHTML += `
-      <article class="eventoCard">
-        <h2>${categorias.find(a => a.id == e.idCategoria) ? categorias.find(a => a.id == e.idCategoria).tipo : ""}</h2>
-        <p>${e.detalle}</p>
-        <p>${e.fecha}</p>
-        <button id="e-${e.id}" class="btnEliminarEvento">Eliminar</button>
-      </article>
-    `
-  })
+  if (eventos) {
+    eventos.forEach(e => {
+      selector("#divEventos").innerHTML += `
+        <article class="eventoCard">
+          <h2>${categorias.find(a => a.id == e.idCategoria) ? categorias.find(a => a.id == e.idCategoria).tipo : ""}</h2>
+          <p>${e.detalle}</p>
+          <p>${e.fecha}</p>
+          <button id="e-${e.id}" class="btnEliminarEvento">Eliminar</button>
+        </article>
+      `
+    })
 
-  const btns = document.querySelectorAll(".btnEliminarEvento")
-  btns.forEach(b => {
-    b.addEventListener("click", borrarEvento)
-  })
+    const btns = document.querySelectorAll(".btnEliminarEvento")
+    btns.forEach(b => {
+      b.addEventListener("click", borrarEvento)
+    })
+  }
+  else {
+    selector("#divEventos").innerHTML = "Aún no se han agregado eventos"
+  }
 
   hideLoader()
 }
