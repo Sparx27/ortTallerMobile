@@ -1,4 +1,9 @@
-import { URL, selector, selectorValue, mostrarSeccion, isNullOrEmpty, showLoader, hideLoader, showToaster, limpiarInputs } from '../helpers.js'
+import {
+  URL, selector, selectorValue,
+  mostrarSeccion, isNullOrEmpty, showLoader,
+  hideLoader, showToaster, limpiarInputs,
+  manejarEl401
+} from '../helpers.js'
 import { getUsuario } from '../usuario.js'
 
 selector("#navAgregarEvento").addEventListener("click", () => {
@@ -54,7 +59,10 @@ selector("#formAgregarEvento").addEventListener("submit", (e) => {
       })
       .catch(dataError => {
         hideLoader()
-        if (dataError.mensaje) {
+        if (dataError.mensaje == 401) {
+          manejarEl401()
+        }
+        else if (dataError.mensaje) {
           showToaster(dataError.mensaje)
         }
         else {
@@ -92,7 +100,10 @@ async function getCategorias() {
       return data.categorias
     })
     .catch(dataError => {
-      if (dataError.mensaje) {
+      if (dataError.codigo == 401) {
+        manejarEl401()
+      }
+      else if (dataError.mensaje) {
         showToaster(dataError.mensaje)
       }
       else {

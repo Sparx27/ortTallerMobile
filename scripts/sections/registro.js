@@ -1,4 +1,4 @@
-import { URL, mostrarSeccion, selector, selectorValue, isNullOrEmpty, showToaster } from "../helpers.js";
+import { URL, mostrarSeccion, selector, selectorValue, isNullOrEmpty, showToaster, limpiarInputs } from "../helpers.js";
 import { actualizarUsuario } from "../usuario.js";
 import { login } from "./login.js";
 
@@ -53,6 +53,14 @@ function registro() {
         //Actualizo el usuario de usuario.js
         actualizarUsuario(data.iduser, data.apiKey)
 
+        limpiarInputs([
+          selector("#usuarioRegistro"),
+          selector("#passwordRegistro"),
+          selector("#passwordRegistro2"),
+          selector("#idDepartamentoRegistro"),
+          selector("#idCiudadRegistro")
+        ])
+
         //Retorno el usuario y password para utilizar la funcion login(us, pas) de login.js
         return { usuario, password }
       })
@@ -63,7 +71,7 @@ function registro() {
           pRegistroMensaje.innerHTML = `Error: ${errorData.mensaje}`
         }
         else {
-          pRegistroMensaje.innerHTML = "Disculpe, algo no salió correctamente"
+          pRegistroMensaje.innerHTML = "Disculpe, algo en el registro no salió correctamente"
         }
       })
   }

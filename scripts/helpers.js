@@ -1,3 +1,6 @@
+import { menuIncognito } from "./main.js"
+import { logout } from "./usuario.js"
+
 const URL = "https://babytracker.develotion.com"
 
 function selector(element) {
@@ -70,6 +73,13 @@ function limpiarInputs(arr) {
   arr.forEach(i => i.value = "")
 }
 
+function manejarEl401() {
+  logout()
+  menuIncognito()
+  mostrarSeccion("login")
+  showToaster("Por favor, inicie sesión nuevamente.")
+}
+
 export {
   URL,
   selector,
@@ -79,5 +89,6 @@ export {
   showLoader,
   hideLoader,
   showToaster,
-  limpiarInputs
+  limpiarInputs,
+  manejarEl401
 }

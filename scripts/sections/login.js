@@ -13,9 +13,6 @@ function login(us, pas) {
   let usuario = selectorValue("#usuarioLogin")
   let password = selectorValue("#passwordLogin")
 
-  console.log(us)
-  console.log(pas)
-
   //Este bloque de if es unicamente para cuando el usuario se registra (en registro.js) 
   //y se le pasan por parametros el us y el pas
   if (us !== undefined && pas !== undefined) {

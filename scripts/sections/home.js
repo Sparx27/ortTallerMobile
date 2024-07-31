@@ -1,5 +1,5 @@
-import { URL, selector, selectorValue, mostrarSeccion, showLoader, hideLoader, showToaster } from '../helpers.js'
-import { getUsuario } from '../usuario.js'
+import { URL, selector, selectorValue, mostrarSeccion, showLoader, hideLoader, showToaster, manejarEl401 } from '../helpers.js'
+import { getUsuario, logout } from '../usuario.js'
 import { getCategorias } from './agregarEvento.js'
 
 selector("#navHome").addEventListener("click", () => {
@@ -23,7 +23,7 @@ async function obtenerEventos() {
       if (res.ok) {
         return res.json()
       }
-      return Promise.reject("Disculpe, algo no salió correctamente")
+      return Promise.reject(res.json())
     })
     .then(data => {
       if (data.eventos.length == 0) {
@@ -35,7 +35,15 @@ async function obtenerEventos() {
       }
     })
     .catch(errorData => {
-      pMensajeEventos.innerHTML = errorData
+      if (errorData.codigo == 401) {
+        manejarEl401()
+      }
+      else if (errorData.mensaje) {
+        showLoader(errorData.mensaje)
+      }
+      else {
+        showToaster("Disculpe, no fue posible obtener las categorías")
+      }
     })
 }
 
@@ -43,11 +51,13 @@ async function mostrarEventos() {
   showLoader()
   selector("#divEventos").innerHTML = ""
 
-  const [eventos, categorias] = await Promise.all([obtenerEventos(), getCategorias()])
+  try {
+    const [eventos, categorias] = await Promise.all([obtenerEventos(), getCategorias()])
 
-  if (eventos) {
-    eventos.forEach(e => {
-      selector("#divEventos").innerHTML += `
+    if (eventos) {
+      console.log("if(eventos")
+      eventos.forEach(e => {
+        selector("#divEventos").innerHTML += `
         <article class="eventoCard">
           <h2>${categorias.find(a => a.id == e.idCategoria) ? categorias.find(a => a.id == e.idCategoria).tipo : ""}</h2>
           <p>${e.detalle}</p>
@@ -55,18 +65,22 @@ async function mostrarEventos() {
           <button id="e-${e.id}" class="btnEliminarEvento">Eliminar</button>
         </article>
       `
-    })
+      })
 
-    const btns = document.querySelectorAll(".btnEliminarEvento")
-    btns.forEach(b => {
-      b.addEventListener("click", borrarEvento)
-    })
+      const btns = document.querySelectorAll(".btnEliminarEvento")
+      btns.forEach(b => {
+        b.addEventListener("click", borrarEvento)
+      })
+    }
+    else {
+      console.log("else(eventos")
+      selector("#divEventos").innerHTML = "Aún no se han agregado eventos"
+    }
   }
-  else {
-    selector("#divEventos").innerHTML = "Aún no se han agregado eventos"
+  finally {
+    console.log("dsp if/else (eventos")
+    hideLoader()
   }
-
-  hideLoader()
 }
 
 function borrarEvento(e) {
@@ -92,7 +106,10 @@ function borrarEvento(e) {
     })
     .catch(errorData => {
       hideLoader()
-      if (errorData.mensaje) {
+      if (errorData.codigo == 401) {
+        manejarEl401()
+      }
+      else if (errorData.mensaje) {
         showToaster(errorData.mensaje)
       }
       else {
