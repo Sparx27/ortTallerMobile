@@ -21,3 +21,5 @@ function getUsuario() {
 
 export { getUsuario, actualizarUsuario, logout };
 //prueba
+
+//otra prueba
