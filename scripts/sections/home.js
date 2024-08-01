@@ -55,15 +55,12 @@ async function obtenerImgsCategorias() {
   return fetch("https://babytracker.develotion.com/imgs/1.png", {
     headers: {
       "Content-Type": "application/json",
-      "apikey": usuario.apikey,
-      "iduser": usuario.userid
     }
   })
     .then(res => res.json())
     .then(img => console.log(img))
     .catch(dataError => showToaster("Algo salio mal obteniendo la imagen"))
 }
-/* obtenerImgsCategorias() */
 
 async function mostrarEventos() {
   showLoader()
@@ -115,8 +112,10 @@ async function mostrarEventos() {
           }`
 
         eventosDia.forEach(e => {
+          let idImage = categorias.find(a => a.id == e.idCategoria) ? categorias.find(a => a.id == e.idCategoria).imagen : "";
           divEventosDia.innerHTML += `
           <article class="eventoCard">
+          <img src="https://babytracker.develotion.com/imgs/${idImage}.png" />
             <h2>${categorias.find(a => a.id == e.idCategoria) ? categorias.find(a => a.id == e.idCategoria).tipo : ""}</h2>
             <p>${e.detalle}</p>
             <p>${e.fecha}</p>
@@ -131,8 +130,10 @@ async function mostrarEventos() {
       }
       else {
         eventosPasados.forEach(e => {
+          let idImage = categorias.find(a => a.id == e.idCategoria) ? categorias.find(a => a.id == e.idCategoria).imagen : "";
           divEventosAntes.innerHTML += `
           <article class="eventoCard">
+          <img src="https://babytracker.develotion.com/imgs/${idImage}.png" />
             <h2>${categorias.find(a => a.id == e.idCategoria) ? categorias.find(a => a.id == e.idCategoria).tipo : ""}</h2>
             <p>${e.detalle}</p>
             <p>${e.fecha}</p>
