@@ -89,3 +89,7 @@ select {
   padding: 12px 10px;
   border-radius: 8px;
 }
+
+#map {
+  height: 180px;
+}

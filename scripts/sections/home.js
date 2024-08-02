@@ -42,7 +42,7 @@ async function obtenerEventos() {
         showLoader(errorData.mensaje)
       }
       else {
-        showToaster("Disculpe, no fue posible obtener las categorías")
+        showToaster("Disculpe, no fue posible obtener los eventos")
       }
     })
 }
@@ -95,7 +95,6 @@ async function mostrarEventos() {
       }
       else {
         const informes = calcularInformes(eventosDia)
-        console.log(Math.trunc(informes.ultBiberon / 60) * 60)
         selector("#spanBiberon").innerHTML = informes.biberones
         selector("#spanBiberon2").innerHTML = `${informes.ultBiberon == "--"
           ? "--"
@@ -222,4 +221,20 @@ function borrarEvento(e) {
     })
 }
 
+function elMapa() {
+  let location = navigator.geolocation.getCurrentPosition(success, (err) => err)
+  console.log(location)
+  function success(position) {
+    latitud = position.coords.latitude
+    long = position.coords.longitude
+  }
+  var map = L.map('map').setView([-34.90371088968206, -56.19058160486342], 13);
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+  }).addTo(map);
+
+  var marker = L.marker([-34.90371088968206, -56.19058160486342]).addTo(map);
+}
+elMapa()
 export { mostrarEventos }
