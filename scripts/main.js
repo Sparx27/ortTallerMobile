@@ -13,7 +13,6 @@ const navHome = selector("#navHome");
 const navLogin = selector("#navLogin");
 const navRegistro = selector("#navRegistro");
 const navLogout = selector("#navLogout");
-const navAgregarEvento = selector("#navAgregarEvento");
 const menu = selector("#menu");
 
 navLogout.addEventListener("click", () => {
@@ -62,14 +61,13 @@ function menuIncognito() {
   /** OCULTAR **/
   navHome.style.display = "none";
   navLogout.style.display = "none";
-  navAgregarEvento.style.display = "none";
 }
 
 function menuUsuario() {
   /** MOSTRAR **/
   navHome.style.display = "inline";
   navLogout.style.display = "inline";
-  navAgregarEvento.style.display = "inline";
+
   /** OCULTAR **/
   navLogin.style.display = "none";
   navRegistro.style.display = "none";

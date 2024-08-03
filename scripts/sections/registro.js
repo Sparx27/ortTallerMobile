@@ -90,6 +90,7 @@ selector("#formRegistro").addEventListener("click", () => {
 /***** GETTERS DE LOS SELECTORS *****/
 const departamentoSelect = selector("#idDepartamentoRegistro");
 const ciudadSelect = selector("#idCiudadRegistro");
+const itemCiudadSelect = selector("#itemCiudadRegistro");
 
 function getDepartamentos() {
   return fetch(URL + "/departamentos.php", {
@@ -116,10 +117,10 @@ function getDepartamentos() {
     });
 }
 
-departamentoSelect.addEventListener("change", () => {
-  if (departamentoSelect.value == "") {
-    ciudadSelect.innerHTML = '<option value="">--Seleccionar--</option>';
+departamentoSelect.addEventListener("ionChange", () => {
+  if (departamentoSelect.value == undefined) {
     ciudadSelect.style.display = "none";
+    itemCiudadSelect.style.display = "none";
   } else {
     getCiudades();
   }
@@ -139,11 +140,12 @@ function getCiudades() {
       if (data.codigo != 200) {
         return Promise.reject("Error en la obtención de ciudades");
       }
-      ciudadSelect.innerHTML = '<option value="">--Seleccionar--</option>';
+      ciudadSelect.innerHTML = "";
       data.ciudades.forEach((a) => {
         ciudadSelect.innerHTML += `<ion-select-option value="${a.id}">${a.nombre}</ion-select-option>`;
       });
       ciudadSelect.style.display = "block";
+      itemCiudadSelect.style.display = "block";
     })
     .catch((dataError) => {
       if (dataError.mensaje) {

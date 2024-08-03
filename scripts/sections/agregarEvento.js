@@ -85,8 +85,7 @@ selector("#formAgregarEvento").addEventListener("click", () => {
 async function getCategorias() {
   const usuario = getUsuario();
   const categoriasSelect = selector("#idCategoriaAgregarEvento");
-  categoriasSelect.innerHTML = '<option value="">--Seleccionar--</option>';
-
+  categoriasSelect.innerHTML = "";
   return fetch(URL + "/categorias.php", {
     headers: {
       "Content-Type": "application/json",
@@ -103,7 +102,7 @@ async function getCategorias() {
       }
 
       data.categorias.forEach((a) => {
-        categoriasSelect.innerHTML += `<option value="${a.id}">${a.tipo}</option>`;
+        categoriasSelect.innerHTML += `<ion-select-option value="${a.id}">${a.tipo}</ion-select-option>`;
       });
       return data.categorias;
     })

@@ -16,6 +16,8 @@ function logout() {
 }
 
 function getUsuario() {
+  usuario.userid = window.localStorage.getItem("iduser");
+  usuario.apikey = window.localStorage.getItem("apikey");
   return usuario;
 }
 

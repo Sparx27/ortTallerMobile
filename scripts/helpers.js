@@ -1,83 +1,108 @@
-import { menuIncognito } from "./main.js"
-import { logout } from "./usuario.js"
+import { menuIncognito } from "./main.js";
+import { logout } from "./usuario.js";
+import { mostrarEventos } from "./sections/home.js";
 
-const URL = "https://babytracker.develotion.com"
+const URL = "https://babytracker.develotion.com";
 
 function selector(element) {
-  return document.querySelector(`${element}`)
+  return document.querySelector(`${element}`);
 }
 
 function selectorValue(element) {
-  return selector(element).value
+  return selector(element).value;
 }
 
 function mostrarSeccion(sectionId) {
-  const sections = document.querySelectorAll("section")
-  sections.forEach(s => s.style.display = "none")
+  const sections = document.querySelectorAll("ion-page");
+  sections.forEach((s) => (s.style.display = "none"));
 
-  document.getElementById(sectionId).style.display = "block"
+  let rutaUrl = sectionId == "home" ? "/" : `/${sectionId}`;
+  ruteo.push(rutaUrl);
+  document.getElementById(sectionId).style.display = "block";
 }
 
 function isNullOrEmpty(string) {
   if (string == undefined || string == null || string.trim().length == 0) {
-    return true
+    return true;
   }
-  return false
+  return false;
 }
 
 function showLoader() {
-  selector("#loaderContainer").style.display = "block"
+  selector("#loaderContainer").style.display = "block";
 }
 
 function hideLoader() {
-  selector("#loaderContainer").style.display = "none"
+  selector("#loaderContainer").style.display = "none";
 }
 
-let toastShowId = null
+let toastShowId = null;
 let toastShow = function (toaster) {
-  toaster.classList.add("toaster-show")
+  toaster.classList.add("toaster-show");
   let crearSet = setTimeout(() => {
-    toaster.classList.remove("toaster-show")
-  }, 3000)
-  toastShowId = crearSet
-}
+    toaster.classList.remove("toaster-show");
+  }, 3000);
+  toastShowId = crearSet;
+};
 
-let toastMessageId = null
+let toastMessageId = null;
 let toastMessageClear = function () {
   let crearSet = setTimeout(() => {
-    toasterMensaje.innerHTML = ""
-  }, 4500)
-  toastMessageId = crearSet
-}
+    toasterMensaje.innerHTML = "";
+  }, 4500);
+  toastMessageId = crearSet;
+};
 
 function showToaster(mensaje) {
-  const toaster = selector("#toaster")
-  const toasterMensaje = selector("#toasterMensaje")
+  const toaster = selector("#toaster");
+  const toasterMensaje = selector("#toasterMensaje");
 
   if (toastShowId) {
-    clearTimeout(toastShowId)
-    toastShowId = null
+    clearTimeout(toastShowId);
+    toastShowId = null;
   }
   if (toastMessageId) {
-    clearTimeout(toastMessageId)
-    toastMessageId = null
+    clearTimeout(toastMessageId);
+    toastMessageId = null;
   }
 
-  toasterMensaje.innerHTML = mensaje
+  toasterMensaje.innerHTML = mensaje;
 
-  toastShow(toaster)
-  toastMessageClear()
+  toastShow(toaster);
+  toastMessageClear();
 }
 
 function limpiarInputs(arr) {
-  arr.forEach(i => i.value = "")
+  arr.forEach((i) => (i.value = ""));
 }
 
 function manejarEl401() {
-  logout()
-  menuIncognito()
-  mostrarSeccion("login")
-  showToaster("Por favor, inicie sesión nuevamente.")
+  logout();
+  menuIncognito();
+  mostrarSeccion("login");
+  showToaster("Por favor, inicie sesión nuevamente.");
+}
+
+const ruteo = selector("#ruteo");
+ruteo.addEventListener("ionRouteWillChange", manejarRouter);
+
+function manejarRouter(e) {
+  let rutaDestino = e.detail.to;
+  switch (rutaDestino) {
+    case "/":
+      mostrarSeccion("home");
+      mostrarEventos();
+      break;
+    case "/registro":
+      mostrarSeccion("registro");
+      break;
+    case "/login":
+      mostrarSeccion("login");
+      break;
+    case "/logout":
+      logout();
+      break;
+  }
 }
 
 export {
@@ -90,5 +115,5 @@ export {
   hideLoader,
   showToaster,
   limpiarInputs,
-  manejarEl401
-}
+  manejarEl401,
+};

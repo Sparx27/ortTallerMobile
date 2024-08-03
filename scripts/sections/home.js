@@ -12,9 +12,14 @@ import { getUsuario, logout } from "../usuario.js";
 import { getCategorias } from "./agregarEvento.js";
 
 selector("#navHome").addEventListener("click", () => {
-  mostrarSeccion("home");
-  mostrarEventos();
-  document.querySelector("#menu").close();
+  const usuario = getUsuario();
+  if (usuario.apikey == null || usuario.userid == null) {
+    manejarEl401();
+  } else {
+    mostrarSeccion("home");
+    mostrarEventos();
+    document.querySelector("#menu").close();
+  }
 });
 
 async function obtenerEventos() {
@@ -141,17 +146,25 @@ async function mostrarEventos() {
             ? categorias.find((a) => a.id == e.idCategoria).imagen
             : "";
           divEventosDia.innerHTML += `
-          <article class="eventoCard">
-          <img src="https://babytracker.develotion.com/imgs/${idImage}.png" />
-            <h2>${
+          <ion-item>
+            <ion-thumbnail slot="start">
+              <img alt="Silhouette of mountains" src="https://babytracker.develotion.com/imgs/${idImage}.png" />
+            </ion-thumbnail>
+            <ion-label>
+            ${
               categorias.find((a) => a.id == e.idCategoria)
                 ? categorias.find((a) => a.id == e.idCategoria).tipo
                 : ""
-            }</h2>
-            <p>${e.detalle}</p>
-            <p>${e.fecha}</p>
-            <button id="e-${e.id}" class="btnEliminarEvento">Eliminar</button>
-          </article>
+            }
+            </ion-label>
+            <ion-card-content>
+              <p>${e.detalle}</p>
+              <p>${e.fecha}</p>
+            </ion-card-content>
+            <ion-button fill="clear" id="e-${
+              e.id
+            }" class="btnEliminarEvento">Eliminar</ion-button>
+          </ion-item>
         `;
         });
       }
@@ -164,17 +177,27 @@ async function mostrarEventos() {
             ? categorias.find((a) => a.id == e.idCategoria).imagen
             : "";
           divEventosAntes.innerHTML += `
-          <article class="eventoCard">
-          <img src="https://babytracker.develotion.com/imgs/${idImage}.png" />
-            <h2>${
+
+          <ion-item>
+            <ion-thumbnail slot="start">
+              <img alt="Silhouette of mountains" src="https://babytracker.develotion.com/imgs/${idImage}.png" />
+            </ion-thumbnail>
+            <ion-label>
+            ${
               categorias.find((a) => a.id == e.idCategoria)
                 ? categorias.find((a) => a.id == e.idCategoria).tipo
                 : ""
-            }</h2>
-            <p>${e.detalle}</p>
-            <p>${e.fecha}</p>
-            <button id="e-${e.id}" class="btnEliminarEvento">Eliminar</button>
-          </article>
+            }
+            </ion-label>
+            <ion-card-content>
+              <p>${e.detalle}</p>
+              <p>${e.fecha}</p>
+            </ion-card-content>
+            <ion-button fill="clear" id="e-${
+              e.id
+            }" class="btnEliminarEvento">Eliminar</ion-button>
+          </ion-item>          
+         
         `;
         });
       }
@@ -257,7 +280,7 @@ function borrarEvento(e) {
     });
 }
 
-function elMapa() {
+/* function elMapa() {
   let location = navigator.geolocation.getCurrentPosition(
     success,
     (err) => err
@@ -276,5 +299,5 @@ function elMapa() {
 
   var marker = L.marker([-34.90371088968206, -56.19058160486342]).addTo(map);
 }
-elMapa();
+elMapa(); */
 export { mostrarEventos };
