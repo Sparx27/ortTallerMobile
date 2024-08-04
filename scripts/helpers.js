@@ -1,6 +1,7 @@
 import { menuIncognito } from "./main.js";
 import { logout } from "./usuario.js";
-import { mostrarEventos, geolocalizacion } from "./sections/home.js";
+import { mostrarEventos } from "./sections/home.js";
+import { geolocalizacion } from "./sections/verMapa.js";
 
 const URL = "https://babytracker.develotion.com";
 
@@ -83,7 +84,7 @@ function manejarEl401() {
   showToaster("Por favor, inicie sesión nuevamente.");
 }
 
-const ruteo = selector("#ruteo");
+let ruteo = selector("#ruteo");
 ruteo.addEventListener("ionRouteWillChange", manejarRouter);
 
 function manejarRouter(e) {
@@ -106,8 +107,9 @@ function manejarRouter(e) {
       mostrarSeccion("agregarEvento");
       break;
     case "/verMapa":
-      geolocalizacion();
       mostrarSeccion("verMapa");
+      console.log("de router")
+      geolocalizacion();
       break;
   }
 }

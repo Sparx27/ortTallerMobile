@@ -28,8 +28,8 @@ selector("#formAgregarEvento").addEventListener("click", () => {
   const detalle = selectorValue("#detalleAgregarEvento");
   const fecha = selectorValue("#fechaAgregarEvento");
 
-  if (isNullOrEmpty(detalle) && idCategoria == null) {
-    showToaster("Por favor, ingrese un detalle o una categoría");
+  if (idCategoria == null) {
+    showToaster("Por favor, ingrese una categoría");
     hideLoader();
   } else if (new Date(fecha) > new Date()) {
     showToaster(

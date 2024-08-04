@@ -106,7 +106,7 @@ async function mostrarEventos() {
 
       if (eventosDia.length == 0) {
         divInformes.style.display = "none";
-        divEventosDia.innerHTML += "<h3>Aún no se han agregado eventos</h3>";
+        divEventosDia.innerHTML = "<h3>Aún no se han agregado eventos</h3>";
       } else {
         const informes = calcularInformes(eventosDia);
         selector("#spanBiberon").innerHTML = informes.biberones;
@@ -145,7 +145,7 @@ async function mostrarEventos() {
           divEventosDia.innerHTML += `
           <ion-item>
             <ion-thumbnail slot="start">
-              <img alt="Silhouette of mountains" src="https://babytracker.develotion.com/imgs/${idImage}.png" />
+              <img alt="imagen de evento" src="https://babytracker.develotion.com/imgs/${idImage}.png" />
             </ion-thumbnail>
             <ion-label>
             ${categorias.find((a) => a.id == e.idCategoria)
@@ -168,6 +168,7 @@ async function mostrarEventos() {
         divEventosAntes.innerHTML = "<h3>Aún no se han agregado eventos</h3>";
       } else {
         eventosPasados.forEach((e) => {
+          console.log(e)
           let idImage = categorias.find((a) => a.id == e.idCategoria)
             ? categorias.find((a) => a.id == e.idCategoria).imagen
             : "";
@@ -175,7 +176,7 @@ async function mostrarEventos() {
 
           <ion-item>
             <ion-thumbnail slot="start">
-              <img alt="Silhouette of mountains" src="https://babytracker.develotion.com/imgs/${idImage}.png" />
+              <img alt="imagen de evento" src="https://babytracker.develotion.com/imgs/${idImage}.png" />
             </ion-thumbnail>
             <ion-label>
             ${categorias.find((a) => a.id == e.idCategoria)
@@ -240,6 +241,10 @@ function calcularInformes(eventos) {
   return res;
 }
 
+function construirEventosDia(eventos) {
+
+}
+
 function borrarEvento(e) {
   const usuario = getUsuario();
   showLoader();
@@ -273,73 +278,4 @@ function borrarEvento(e) {
     });
 }
 
-selector("#navMapa").addEventListener("click", () => {
-  const usuario = getUsuario();
-  if (usuario.apikey == null || usuario.userid == null) {
-    manejarEl401();
-  } else {
-    mostrarSeccion("verMapa");
-    geolocalizacion();
-    document.querySelector("#menu").close();
-  }
-});
-
-function geolocalizacion() {
-  let latitud;
-  let longitud;
-
-  let location = navigator.geolocation.getCurrentPosition(
-    success,
-    mostrarError
-  );
-
-  function success(position) {
-    latitud = position.coords.latitude;
-    longitud = position.coords.longitude;
-    elMapa(latitud, longitud);
-  }
-  function mostrarError(error) {
-    elMapa();
-  }
-}
-
-let map;
-function elMapa(latitud, longitud) {
-  if (map != null || map != undefined) {
-    map.remove();
-    map = null;
-  }
-  map = L.map("map").fitWorld(
-    [
-      latitud ? latitud : -34.90371088968206,
-      longitud ? longitud : -56.19058160486342,
-    ],
-    13
-  );
-  L.tileLayer(`https://tile.openstreetmap.org/{z}/{x}/{y}.png`, {
-    maxZoom: 19,
-    attribution:
-      '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-  }).addTo(map);
-
-  map.locate({ setView: true, maxZoom: 16 })
-
-  L.marker([
-    latitud ? latitud : -34.90371088968206,
-    longitud ? longitud : -56.19058160486342,
-  ]).addTo(map);
-
-  function onLocationFound(e) {
-    var radius = e.accuracy;
-
-    L.marker(e.latlng).addTo(map)
-      .bindPopup("You are within " + radius + " meters from this point").openPopup();
-
-    L.circle(e.latlng, radius).addTo(map);
-  }
-
-  map.on('locationfound', onLocationFound);
-}
-
-window.addEventListener("reload", () => { });
-export { mostrarEventos, geolocalizacion };
+export { mostrarEventos, borrarEvento };

@@ -95,3 +95,7 @@ select {
   width: 90vw;
   margin: 0 auto;
 }
+
+.ion-page {
+  padding-bottom: 40px !important;
+}

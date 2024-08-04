@@ -6,7 +6,7 @@ import "./sections/registro.js";
 import "./sections/login.js";
 import "./sections/home.js";
 import "./sections/agregarEvento.js";
-import "./sections/obtenerPlazas.js";
+import "./sections/verMapa.js";
 
 /***** MENU *****/
 const navHome = selector("#navHome");
