@@ -7,6 +7,7 @@ import {
   hideLoader,
   showToaster,
   manejarEl401,
+  ruteo,
 } from "../helpers.js";
 import { getUsuario, logout } from "../usuario.js";
 import { getCategorias } from "./agregarEvento.js";
@@ -278,24 +279,63 @@ function borrarEvento(e) {
     });
 }
 
-/* function elMapa() {
+selector("#navMapa").addEventListener("click", () => {
+  const usuario = getUsuario();
+  if (usuario.apikey == null || usuario.userid == null) {
+    manejarEl401();
+  } else {
+    mostrarSeccion("verMapa");
+    geolocalizacion();
+    document.querySelector("#menu").close();
+  }
+});
+let map;
+
+function geolocalizacion() {
+  let latitud;
+  let longitud;
+
   let location = navigator.geolocation.getCurrentPosition(
     success,
-    (err) => err
+    mostrarError
   );
-  console.log(location);
+
   function success(position) {
+    console.log(position.coords);
     latitud = position.coords.latitude;
-    long = position.coords.longitude;
+    longitud = position.coords.longitude;
+    console.log(location);
+    console.log(latitud);
+    elMapa(latitud, longitud);
   }
-  var map = L.map("map").setView([-34.90371088968206, -56.19058160486342], 13);
+  function mostrarError(error) {
+    elMapa();
+  }
+}
+
+function elMapa(latitud, longitud) {
+  if (map != null || map != undefined) {
+    map.remove();
+    map = null;
+  }
+  map = L.map("map").setView(
+    [
+      latitud ? latitud : -34.90371088968206,
+      longitud ? longitud : -56.19058160486342,
+    ],
+    13
+  );
   L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
     maxZoom: 19,
     attribution:
       '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
   }).addTo(map);
 
-  var marker = L.marker([-34.90371088968206, -56.19058160486342]).addTo(map);
+  var marker = L.marker([
+    latitud ? latitud : -34.90371088968206,
+    longitud ? longitud : -56.19058160486342,
+  ]).addTo(map);
 }
-elMapa(); */
-export { mostrarEventos };
+
+window.addEventListener("reload", () => {});
+export { mostrarEventos, geolocalizacion };

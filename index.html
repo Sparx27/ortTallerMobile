@@ -36,6 +36,8 @@
         <ion-route url="/login" component="login"></ion-route>
         <ion-route url="/registro" component="registro"></ion-route>
         <ion-route url="/logout" component="login"></ion-route>
+        <ion-route url="/agregarEvento" component="agregarEvento"></ion-route>
+        <ion-route url="/verMapa" component="verMapa"></ion-route>
       </ion-router>
       <ion-nav></ion-nav>
 
@@ -63,6 +65,10 @@
             </ion-item>
             <ion-item id="navRegistro" href="/registro">
               <ion-label>Registro</ion-label>
+            </ion-item>
+
+            <ion-item id="navMapa" href="/verMapa">
+              <ion-label>Ver mapa</ion-label>
             </ion-item>
             <ion-item id="navLogout" href="/logout">
               <ion-label>Cerrar sesión</ion-label>
@@ -236,7 +242,25 @@
             <ion-button id="formAgregarEvento" size="small"
               >Agregar evento</ion-button
             >
+            <ion-button id="backHome" size="small">Volver</ion-button>
           </form>
+        </ion-content>
+      </ion-page>
+
+      <!--Plazas-->
+      <ion-page id="verMapa" class="ion-page">
+        <ion-header>
+          <ion-toolbar>
+            <ion-buttons slot="start">
+              <ion-menu-button></ion-menu-button>
+            </ion-buttons>
+            <ion-title>Plazas</ion-title>
+          </ion-toolbar>
+        </ion-header>
+        <ion-content class="ion-padding">
+          <h1>Ver Plazas</h1>
+
+          <div id="map"></div>
         </ion-content>
       </ion-page>
     </ion-app>

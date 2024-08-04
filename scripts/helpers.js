@@ -1,6 +1,6 @@
 import { menuIncognito } from "./main.js";
 import { logout } from "./usuario.js";
-import { mostrarEventos } from "./sections/home.js";
+import { mostrarEventos, geolocalizacion } from "./sections/home.js";
 
 const URL = "https://babytracker.develotion.com";
 
@@ -102,6 +102,13 @@ function manejarRouter(e) {
     case "/logout":
       logout();
       break;
+    case "/agregarEvento":
+      mostrarSeccion("agregarEvento");
+      break;
+    case "/verMapa":
+      geolocalizacion();
+      mostrarSeccion("verMapa");
+      break;
   }
 }
 
@@ -126,4 +133,5 @@ export {
   limpiarInputs,
   manejarEl401,
   mostrarMensaje,
+  ruteo,
 };

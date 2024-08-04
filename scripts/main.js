@@ -14,6 +14,7 @@ const navLogin = selector("#navLogin");
 const navRegistro = selector("#navRegistro");
 const navLogout = selector("#navLogout");
 const menu = selector("#menu");
+const navMapa = selector("#navMapa");
 
 navLogout.addEventListener("click", () => {
   logout();
@@ -23,10 +24,6 @@ navLogout.addEventListener("click", () => {
   menuIncognito();
   document.querySelector("#menu").close();
 });
-
-function cerrarMenu() {
-  menu.close();
-}
 
 /***** SECTIONS *****/
 const sectionHome = selector("#home");
@@ -61,13 +58,14 @@ function menuIncognito() {
   /** OCULTAR **/
   navHome.style.display = "none";
   navLogout.style.display = "none";
+  navMapa.style.display = "none";
 }
 
 function menuUsuario() {
   /** MOSTRAR **/
   navHome.style.display = "inline";
   navLogout.style.display = "inline";
-
+  navMapa.style.display = "inline";
   /** OCULTAR **/
   navLogin.style.display = "none";
   navRegistro.style.display = "none";

@@ -30,7 +30,6 @@ function login(us, pas) {
     password = pas;
   }
 
-  pLoginMensaje.innerHTML = "";
   if (isNullOrEmpty(usuario) || isNullOrEmpty(password)) {
     mostrarMensaje("Debe proporcionar un usuario y password");
   } else {

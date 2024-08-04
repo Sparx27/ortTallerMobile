@@ -9,6 +9,7 @@ import {
   showToaster,
   limpiarInputs,
   manejarEl401,
+  ruteo,
 } from "../helpers.js";
 import { getUsuario } from "../usuario.js";
 
@@ -114,5 +115,9 @@ async function getCategorias() {
       }
     });
 }
+
+selector("#backHome").addEventListener("click", () => {
+  ruteo.back();
+});
 
 export { getCategorias };
