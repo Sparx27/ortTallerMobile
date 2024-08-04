@@ -6,6 +6,7 @@ import {
   isNullOrEmpty,
   showLoader,
   hideLoader,
+  mostrarMensaje,
 } from "../helpers.js";
 import { actualizarUsuario, logout } from "../usuario.js";
 import { mostrarEventos } from "./home.js";
@@ -31,7 +32,7 @@ function login(us, pas) {
 
   pLoginMensaje.innerHTML = "";
   if (isNullOrEmpty(usuario) || isNullOrEmpty(password)) {
-    pLoginMensaje.innerHTML = "Debe proporcionar un usuario y password";
+    mostrarMensaje("Debe proporcionar un usuario y password");
   } else {
     showLoader();
 
@@ -62,9 +63,9 @@ function login(us, pas) {
       .catch((errorData) => {
         hideLoader();
         if (errorData.mensaje) {
-          pLoginMensaje.innerHTML = `Error: ${errorData.mensaje}`;
+          mostrarMensaje(errorData.mensaje);
         } else {
-          pLoginMensaje.innerHTML = "Disculpe, algo no salió correctamente";
+          mostrarMensaje("Disculpe, algo no salió correctamente");
         }
       });
   }

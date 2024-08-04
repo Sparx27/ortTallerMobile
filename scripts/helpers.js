@@ -105,6 +105,15 @@ function manejarRouter(e) {
   }
 }
 
+function mostrarMensaje(texto) {
+  let toast = document.createElement("ion-toast");
+  toast.message = texto;
+  toast.duration = 3500;
+  toast.position = "top";
+  toast.present();
+  document.body.appendChild(toast);
+}
+
 export {
   URL,
   selector,
@@ -116,4 +125,5 @@ export {
   showToaster,
   limpiarInputs,
   manejarEl401,
+  mostrarMensaje,
 };

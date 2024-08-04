@@ -30,6 +30,7 @@
 
   <body>
     <ion-app>
+      <!--Ruteo-->
       <ion-router id="ruteo">
         <ion-route url="/" component="home"></ion-route>
         <ion-route url="/login" component="login"></ion-route>
@@ -38,11 +39,14 @@
       </ion-router>
       <ion-nav></ion-nav>
 
+      <!--Toaster, ver para cambiar a toster de ionic-->
       <div id="toaster-container">
         <div id="toaster">
           <p id="toasterMensaje"></p>
         </div>
       </div>
+
+      <!--Menú de navegación-->
       <ion-menu content-id="main-content" id="menu">
         <ion-header>
           <ion-toolbar>
@@ -80,6 +84,7 @@
         </ion-content>
       </div>
 
+      <!--Pagina de registro-->
       <ion-page id="registro" class="ion-page">
         <ion-header>
           <ion-toolbar>
@@ -91,8 +96,6 @@
         </ion-header>
         <ion-content class="ion-padding">
           <h1>Registro</h1>
-          <p id="pRegistroMensaje"></p>
-
           <ion-item>
             <ion-input id="usuarioRegistro" label="Usuario (*)"></ion-input>
           </ion-item>
@@ -117,7 +120,6 @@
               placeholder="--Seleccionar--"
             ></ion-select>
           </ion-item>
-
           <ion-item style="display: none" id="itemCiudadRegistro">
             <ion-select
               label="Ciudad"
@@ -126,11 +128,11 @@
               placeholder="--Seleccionar--"
             ></ion-select>
           </ion-item>
-
           <ion-button expand="block" id="formRegistro">Registrar</ion-button>
         </ion-content>
       </ion-page>
 
+      <!--Pagina de login-->
       <ion-page id="login" class="ion-page">
         <ion-header>
           <ion-toolbar>
@@ -142,7 +144,6 @@
         </ion-header>
         <ion-content class="ion-padding">
           <h1>Login</h1>
-          <p id="pLoginMensaje"></p>
           <form>
             <ion-item
               ><ion-input
@@ -157,7 +158,6 @@
                 type="password"
               ></ion-input
             ></ion-item>
-
             <ion-button id="formLogin" expand="block">Login</ion-button>
           </form>
         </ion-content>
@@ -167,6 +167,7 @@
         <img id="loader" src="./loader.gif" alt="loader" />
       </figure>
 
+      <!--Pagina home-->
       <ion-page id="home" class="ion-page">
         <ion-header>
           <ion-toolbar>
@@ -182,7 +183,6 @@
             >Agregar Evento</ion-button
           >
 
-          <p id="pMensajeEventos"></p>
           <div id="divEventos"></div>
           <div
             id="divInformes"
@@ -196,7 +196,6 @@
               Tiempo desde último biberon:
               <span style="font-weight: bold" id="spanBiberon2"></span>
             </p>
-            <br />
             <p>
               Pañales usados:
               <span style="font-weight: bold" id="spanPanial"></span>
@@ -205,13 +204,13 @@
               Tiempo desde último pañal:
               <span style="font-weight: bold" id="spanPanial2"></span>
             </p>
-            <br />
           </div>
           <div id="divEventosDia" style="margin-bottom: 50px"></div>
           <div id="divEventosAntes"></div>
         </ion-content>
       </ion-page>
 
+      <!--Pagina agregar eventos-->
       <ion-page id="agregarEvento" class="ion-page">
         <ion-header>
           <ion-toolbar>
@@ -224,7 +223,6 @@
         <ion-content class="ion-padding">
           <h1>Agregar Evento</h1>
 
-          <p id="pMensajeAgregarEvento"></p>
           <form>
             <ion-select
               id="idCategoriaAgregarEvento"

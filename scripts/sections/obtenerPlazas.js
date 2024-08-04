@@ -1,21 +1,20 @@
-import { showToaster, URL } from '../helpers.js'
-import { getUsuario } from '../usuario.js'
-
+import { showToaster, URL } from "../helpers.js";
+import { getUsuario } from "../usuario.js";
 
 function obtenerPlazas() {
-  const usuario = getUsuario()
+  const usuario = getUsuario();
 
   fetch(URL + "/plazas.php", {
     headers: {
       "Content-Type": "application/json",
-      "apikey": usuario.apikey,
-      "iduser": usuario.userid
-    }
+      apikey: usuario.apikey,
+      iduser: usuario.userid,
+    },
   })
-    .then(res => res.json())
-    .then(data => {
+    .then((res) => res.json())
+    .then((data) => {
       if (data.codigo != 200) {
-        return Promise.reject(data)
+        return Promise.reject(data);
       }
 
       //Hacer algo con el data que es del tipo:
@@ -37,12 +36,11 @@ function obtenerPlazas() {
       }
       */
     })
-    .catch(errorData => {
+    .catch((errorData) => {
       if (errorData.mensaje) {
-        showToaster(errorData.mensaje)
+        showToaster(errorData.mensaje);
+      } else {
+        showToaster("Disculpe, algo salió mal en la obtención de plazas.");
       }
-      else {
-        showToaster("Disculpe, algo salió mal en la obtención de plazas.")
-      }
-    })
+    });
 }

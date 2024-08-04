@@ -6,6 +6,7 @@ import {
   isNullOrEmpty,
   showToaster,
   limpiarInputs,
+  mostrarMensaje,
 } from "../helpers.js";
 import { actualizarUsuario } from "../usuario.js";
 import { login } from "./login.js";
@@ -17,23 +18,20 @@ selector("#navRegistro").addEventListener("click", () => {
 });
 
 function registro() {
-  const pRegistroMensaje = selector("#pRegistroMensaje");
   const usuario = selectorValue("#usuarioRegistro");
   const password = selectorValue("#passwordRegistro");
   const password2 = selectorValue("#passwordRegistro2");
   const idDepartamento = Number(selectorValue("#idDepartamentoRegistro"));
   const idCiudad = Number(selectorValue("#idCiudadRegistro"));
 
-  pRegistroMensaje.innerHTML = "";
   if (isNullOrEmpty(usuario)) {
-    pRegistroMensaje.innerHTML = "Debe proporcionar un usuario";
+    mostrarMensaje("Debe proporcionar un usuario");
   } else if (isNullOrEmpty(password)) {
-    pRegistroMensaje.innerHTML = "Debe proporcionar un password";
+    mostrarMensaje("Debe proporcionar un password");
   } else if (isNullOrEmpty(password2)) {
-    pRegistroMensaje.innerHTML = "Debe confirmar su password";
+    mostrarMensaje("Debe confirmar su password");
   } else if (password != password2) {
-    pRegistroMensaje.innerHTML =
-      "Su password no coincide con el de confirmación";
+    mostrarMensaje("Su password no coincide con el de confirmación");
   } else {
     fetch(URL + "/usuarios.php", {
       method: "Post",
@@ -55,6 +53,7 @@ function registro() {
 
         //Pasarlo a un toast
         showToaster(`Usuario registrado con éxito.`);
+        mostrarMensaje("Usuario registrado con éxito.");
 
         //Actualizo el usuario de usuario.js
         actualizarUsuario(data.iduser, data.apiKey);
@@ -74,10 +73,11 @@ function registro() {
       .catch((errorData) => {
         //Primero comprobar que tiene un código y mensaje como normalmente lo hace
         if (errorData.mensaje) {
-          pRegistroMensaje.innerHTML = `Error: ${errorData.mensaje}`;
+          mostrarMensaje(errorData.mensaje);
         } else {
-          pRegistroMensaje.innerHTML =
-            "Disculpe, algo en el registro no salió correctamente";
+          mostrarMensaje(
+            "Disculpe, algo en el registro no salió correctamente"
+          );
         }
       });
   }

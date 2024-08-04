@@ -24,8 +24,6 @@ selector("#navHome").addEventListener("click", () => {
 
 async function obtenerEventos() {
   const usuario = getUsuario();
-  const pMensajeEventos = selector("#pMensajeEventos");
-  pMensajeEventos.innerHTML = "";
 
   return fetch(URL + `/eventos.php?idUsuario=${usuario.userid}`, {
     headers: {

@@ -26,8 +26,6 @@ selector("#formAgregarEvento").addEventListener("click", () => {
   }
   const detalle = selectorValue("#detalleAgregarEvento");
   const fecha = selectorValue("#fechaAgregarEvento");
-  const pMensajeAgregarEvento = selector("#pMensajeAgregarEvento");
-  pMensajeAgregarEvento.innerHTML = "";
 
   if (isNullOrEmpty(detalle) && idCategoria == null) {
     showToaster("Por favor, ingrese un detalle o una categoría");
