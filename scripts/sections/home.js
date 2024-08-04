@@ -108,92 +108,13 @@ async function mostrarEventos() {
         divInformes.style.display = "none";
         divEventosDia.innerHTML = "<h3>Aún no se han agregado eventos</h3>";
       } else {
-        const informes = calcularInformes(eventosDia);
-        selector("#spanBiberon").innerHTML = informes.biberones;
-        selector("#spanBiberon2").innerHTML = `${informes.ultBiberon == "--"
-          ? "--"
-          : informes.ultBiberon >= 60
-            ? Math.trunc(informes.ultBiberon / 60) +
-            " hrs : " +
-            Math.round(
-              (informes.ultBiberon / 60 -
-                Math.trunc(informes.ultBiberon / 60)) *
-              60
-            ) +
-            " mins"
-            : informes.ultBiberon + " mins"
-          }`;
-        selector("#spanPanial").innerHTML = informes.paniales;
-        selector("#spanPanial2").innerHTML = `${informes.ultPanial == "--"
-          ? "--"
-          : informes.ultPanial >= 60
-            ? Math.trunc(informes.ultPanial / 60) +
-            " hrs : " +
-            Math.round(
-              (informes.ultPanial / 60 -
-                Math.trunc(informes.ultPanial / 60)) *
-              60
-            ) +
-            " mins"
-            : informes.ultPanial + " mins"
-          }`;
-
-        eventosDia.forEach((e) => {
-          let idImage = categorias.find((a) => a.id == e.idCategoria)
-            ? categorias.find((a) => a.id == e.idCategoria).imagen
-            : "";
-          divEventosDia.innerHTML += `
-          <ion-item>
-            <ion-thumbnail slot="start">
-              <img alt="imagen de evento" src="https://babytracker.develotion.com/imgs/${idImage}.png" />
-            </ion-thumbnail>
-            <ion-label>
-            ${categorias.find((a) => a.id == e.idCategoria)
-              ? categorias.find((a) => a.id == e.idCategoria).tipo
-              : ""
-            }
-            </ion-label>
-            <ion-card-content>
-              <p>${e.detalle}</p>
-              <p>${e.fecha}</p>
-            </ion-card-content>
-            <ion-button fill="clear" id="e-${e.id
-            }" class="btnEliminarEvento">Eliminar</ion-button>
-          </ion-item>
-        `;
-        });
+        construirEventosDia(eventosDia, categorias);
       }
 
       if (eventosPasados.length == 0) {
         divEventosAntes.innerHTML = "<h3>Aún no se han agregado eventos</h3>";
       } else {
-        eventosPasados.forEach((e) => {
-          console.log(e)
-          let idImage = categorias.find((a) => a.id == e.idCategoria)
-            ? categorias.find((a) => a.id == e.idCategoria).imagen
-            : "";
-          divEventosAntes.innerHTML += `
-
-          <ion-item>
-            <ion-thumbnail slot="start">
-              <img alt="imagen de evento" src="https://babytracker.develotion.com/imgs/${idImage}.png" />
-            </ion-thumbnail>
-            <ion-label>
-            ${categorias.find((a) => a.id == e.idCategoria)
-              ? categorias.find((a) => a.id == e.idCategoria).tipo
-              : ""
-            }
-            </ion-label>
-            <ion-card-content>
-              <p>${e.detalle}</p>
-              <p>${e.fecha}</p>
-            </ion-card-content>
-            <ion-button fill="clear" id="e-${e.id
-            }" class="btnEliminarEvento">Eliminar</ion-button>
-          </ion-item>          
-         
-        `;
-        });
+        construirEventosPasados(eventosPasados, categorias);
       }
 
       const btns = document.querySelectorAll(".btnEliminarEvento");
@@ -241,8 +162,94 @@ function calcularInformes(eventos) {
   return res;
 }
 
-function construirEventosDia(eventos) {
+function construirEventosDia(eventosDia, categorias) {
+  selector("#divEventosDia").innerHTML = "<h2>ESTE DIA</h2>";
+  const informes = calcularInformes(eventosDia);
+  selector("#spanBiberon").innerHTML = informes.biberones;
+  selector("#spanBiberon2").innerHTML = `${
+    informes.ultBiberon == "--"
+      ? "--"
+      : informes.ultBiberon >= 60
+      ? Math.trunc(informes.ultBiberon / 60) +
+        " hrs : " +
+        Math.round(
+          (informes.ultBiberon / 60 - Math.trunc(informes.ultBiberon / 60)) * 60
+        ) +
+        " mins"
+      : informes.ultBiberon + " mins"
+  }`;
+  selector("#spanPanial").innerHTML = informes.paniales;
+  selector("#spanPanial2").innerHTML = `${
+    informes.ultPanial == "--"
+      ? "--"
+      : informes.ultPanial >= 60
+      ? Math.trunc(informes.ultPanial / 60) +
+        " hrs : " +
+        Math.round(
+          (informes.ultPanial / 60 - Math.trunc(informes.ultPanial / 60)) * 60
+        ) +
+        " mins"
+      : informes.ultPanial + " mins"
+  }`;
 
+  eventosDia.forEach((e) => {
+    let idImage = categorias.find((a) => a.id == e.idCategoria)
+      ? categorias.find((a) => a.id == e.idCategoria).imagen
+      : "";
+    divEventosDia.innerHTML += `
+          <ion-item>
+            <ion-thumbnail slot="start">
+              <img alt="imagen de evento" src="https://babytracker.develotion.com/imgs/${idImage}.png" />
+            </ion-thumbnail>
+            <ion-label>
+            ${
+              categorias.find((a) => a.id == e.idCategoria)
+                ? categorias.find((a) => a.id == e.idCategoria).tipo
+                : ""
+            }
+            </ion-label>
+            <ion-card-content>
+              <p>${e.detalle}</p>
+              <p>${e.fecha}</p>
+            </ion-card-content>
+            <ion-button fill="clear" id="e-${
+              e.id
+            }" class="btnEliminarEvento">Eliminar</ion-button>
+          </ion-item>
+        `;
+  });
+}
+
+function construirEventosPasados(eventosPasados, categorias) {
+  selector("#divEventosAntes").innerHTML = "<h2>DIAS ANTERIORES</h2>";
+  eventosPasados.forEach((e) => {
+    let idImage = categorias.find((a) => a.id == e.idCategoria)
+      ? categorias.find((a) => a.id == e.idCategoria).imagen
+      : "";
+    divEventosAntes.innerHTML += `
+
+    <ion-item>
+      <ion-thumbnail slot="start">
+        <img alt="imagen de evento" src="https://babytracker.develotion.com/imgs/${idImage}.png" />
+      </ion-thumbnail>
+      <ion-label>
+      ${
+        categorias.find((a) => a.id == e.idCategoria)
+          ? categorias.find((a) => a.id == e.idCategoria).tipo
+          : ""
+      }
+      </ion-label>
+      <ion-card-content>
+        <p>${e.detalle}</p>
+        <p>${e.fecha}</p>
+      </ion-card-content>
+      <ion-button fill="clear" id="e-${
+        e.id
+      }" class="btnEliminarEvento">Eliminar</ion-button>
+    </ion-item>          
+   
+  `;
+  });
 }
 
 function borrarEvento(e) {

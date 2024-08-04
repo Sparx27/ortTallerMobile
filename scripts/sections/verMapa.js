@@ -1,4 +1,11 @@
-import { showToaster, URL, selector, mostrarSeccion, showLoader, hideLoader } from "../helpers.js";
+import {
+  showToaster,
+  URL,
+  selector,
+  mostrarSeccion,
+  showLoader,
+  hideLoader,
+} from "../helpers.js";
 import { getUsuario } from "../usuario.js";
 
 selector("#navMapa").addEventListener("click", () => {
@@ -6,7 +13,6 @@ selector("#navMapa").addEventListener("click", () => {
   if (usuario.apikey == null || usuario.userid == null) {
     manejarEl401();
   } else {
-    console.log("de mapa")
     geolocalizacion();
     mostrarSeccion("verMapa");
     document.querySelector("#menu").close();
@@ -14,14 +20,11 @@ selector("#navMapa").addEventListener("click", () => {
 });
 
 function geolocalizacion() {
-  showLoader()
+  showLoader();
   let latitud;
   let longitud;
 
-  navigator.geolocation.getCurrentPosition(
-    success,
-    mostrarError
-  );
+  navigator.geolocation.getCurrentPosition(success, mostrarError);
 
   function success(position) {
     latitud = position.coords.latitude;
@@ -46,9 +49,7 @@ function elMapa(latitud, longitud) {
       '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
   }).addTo(map);
 
-  map.locate({ setView: true, maxZoom: 16 })
-
-
+  map.locate({ setView: true, maxZoom: 16 });
 
   L.marker([
     latitud ? latitud : -34.90371088968206,
@@ -58,14 +59,16 @@ function elMapa(latitud, longitud) {
   function onLocationFound(e) {
     var radius = e.accuracy;
 
-    L.marker(e.latlng).addTo(map)
-      .bindPopup("You are within " + radius + " meters from this point").openPopup();
+    L.marker(e.latlng)
+      .addTo(map)
+      .bindPopup("You are within " + radius + " meters from this point")
+      .openPopup();
 
     L.circle(e.latlng, radius).addTo(map);
-    hideLoader()
+    hideLoader();
   }
 
-  map.on('locationfound', onLocationFound);
+  map.on("locationfound", onLocationFound);
 }
 
 function obtenerPlazas() {
@@ -112,4 +115,4 @@ function obtenerPlazas() {
     });
 }
 
-export { geolocalizacion }
+export { geolocalizacion };

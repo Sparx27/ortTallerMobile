@@ -55,22 +55,12 @@ let toastMessageClear = function () {
 };
 
 function showToaster(mensaje) {
-  const toaster = selector("#toaster");
-  const toasterMensaje = selector("#toasterMensaje");
-
-  if (toastShowId) {
-    clearTimeout(toastShowId);
-    toastShowId = null;
-  }
-  if (toastMessageId) {
-    clearTimeout(toastMessageId);
-    toastMessageId = null;
-  }
-
-  toasterMensaje.innerHTML = mensaje;
-
-  toastShow(toaster);
-  toastMessageClear();
+  let toast = document.createElement("ion-toast");
+  toast.message = mensaje;
+  toast.duration = 3500;
+  toast.position = "bottom";
+  toast.present();
+  document.body.appendChild(toast);
 }
 
 function limpiarInputs(arr) {
@@ -88,6 +78,7 @@ let ruteo = selector("#ruteo");
 ruteo.addEventListener("ionRouteWillChange", manejarRouter);
 
 function manejarRouter(e) {
+  console.log(e);
   let rutaDestino = e.detail.to;
   switch (rutaDestino) {
     case "/":
@@ -108,7 +99,6 @@ function manejarRouter(e) {
       break;
     case "/verMapa":
       mostrarSeccion("verMapa");
-      console.log("de router")
       geolocalizacion();
       break;
   }
@@ -118,10 +108,24 @@ function mostrarMensaje(texto) {
   let toast = document.createElement("ion-toast");
   toast.message = texto;
   toast.duration = 3500;
-  toast.position = "top";
+  toast.position = "bottom";
   toast.present();
   document.body.appendChild(toast);
 }
+
+function Volver() {
+  console.log("entró");
+  console.log(ruteo.detail);
+  ruteo.back();
+}
+
+document.querySelectorAll(".volver").forEach((e) => {
+  e.innerHTML = `<ion-button id="backHome" size="small">Volver</ion-button>`;
+});
+
+document.querySelectorAll(".volver").forEach((e) => {
+  e.addEventListener("click", Volver);
+});
 
 export {
   URL,

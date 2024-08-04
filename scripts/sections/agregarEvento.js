@@ -116,8 +116,4 @@ async function getCategorias() {
     });
 }
 
-selector("#backHome").addEventListener("click", () => {
-  ruteo.back();
-});
-
 export { getCategorias };
