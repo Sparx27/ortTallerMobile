@@ -1,274 +1,218 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script
-      type="module"
-      src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"
-    ></script>
-    <script
-      nomodule
-      src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"
-    ></script>
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css"
-    />
 
-    <link rel="stylesheet" href="./styles.css" />
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-      crossorigin=""
-    />
-    <script src="./scripts/main.js" type="module" defer></script>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script defer type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
+  <script defer nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css" />
 
-    <title>Document</title>
-  </head>
+  <link rel="stylesheet" href="./styles.css" />
+  <link defer rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <script src="./scripts/main.js" type="module" defer></script>
 
-  <body>
-    <ion-app>
-      <!--Ruteo-->
-      <ion-router id="ruteo">
-        <ion-route url="/" component="home"></ion-route>
-        <ion-route url="/login" component="login"></ion-route>
-        <ion-route url="/registro" component="registro"></ion-route>
-        <ion-route url="/logout" component="login"></ion-route>
-        <ion-route url="/agregarEvento" component="agregarEvento"></ion-route>
-        <ion-route url="/verMapa" component="verMapa"></ion-route>
-      </ion-router>
-      <ion-nav></ion-nav>
+  <title>Document</title>
+</head>
 
-      <!--Toaster, ver para cambiar a toster de ionic-->
-      <div id="toaster-container">
-        <div id="toaster">
-          <p id="toasterMensaje"></p>
+<body>
+  <ion-app>
+    <!--Ruteo-->
+    <ion-router id="ruteo">
+      <ion-route url="/" component="home"></ion-route>
+      <ion-route url="/login" component="login"></ion-route>
+      <ion-route url="/registro" component="registro"></ion-route>
+      <ion-route url="/logout" component="login"></ion-route>
+      <ion-route url="/agregarEvento" component="agregarEvento"></ion-route>
+      <ion-route url="/verMapa" component="verMapa"></ion-route>
+    </ion-router>
+    <ion-nav></ion-nav>
+
+    <!--Toaster, ver para cambiar a toster de ionic-->
+    <div id="toaster-container">
+      <div id="toaster">
+        <p id="toasterMensaje"></p>
+      </div>
+    </div>
+
+    <!--Menú de navegación-->
+    <ion-menu content-id="main-content" id="menu">
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Menu</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ion-list>
+          <ion-item href="/" id="navHome">
+            <ion-label>Home</ion-label>
+          </ion-item>
+          <ion-item id="navLogin" href="/login">
+            <ion-label>Login</ion-label>
+          </ion-item>
+          <ion-item id="navRegistro" href="/registro">
+            <ion-label>Registro</ion-label>
+          </ion-item>
+
+          <ion-item id="navMapa" href="/verMapa">
+            <ion-label>Ver mapa</ion-label>
+          </ion-item>
+          <ion-item id="navLogout" href="/logout">
+            <ion-label>Cerrar sesión</ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-content>
+    </ion-menu>
+    <div class="ion-page" id="main-content">
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+          </ion-buttons>
+          <ion-title>Menu</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        Tap the button in the toolbar to open the menu.
+      </ion-content>
+    </div>
+
+    <!--Pagina de registro-->
+    <ion-page id="registro" class="ion-page">
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+          </ion-buttons>
+          <ion-title>Registro</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <h1>Registro</h1>
+        <ion-item>
+          <ion-input id="usuarioRegistro" label="Usuario (*)"></ion-input>
+        </ion-item>
+        <ion-item><ion-input id="passwordRegistro" type="password" label="Password (*)"></ion-input></ion-item>
+        <ion-item>
+          <ion-input id="passwordRegistro2" type="password" label="Confirme su password (*)"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-select label="Departamento" id="idDepartamentoRegistro" placeholder="--Seleccionar--"></ion-select>
+        </ion-item>
+        <ion-item style="display: none" id="itemCiudadRegistro">
+          <ion-select label="Ciudad" id="idCiudadRegistro" style="display: none"
+            placeholder="--Seleccionar--"></ion-select>
+        </ion-item>
+        <ion-button expand="block" id="formRegistro">Registrar</ion-button>
+      </ion-content>
+    </ion-page>
+
+    <!--Pagina de login-->
+    <ion-page id="login" class="ion-page">
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+          </ion-buttons>
+          <ion-title>Login</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <h1>Login</h1>
+        <form>
+          <ion-item><ion-input label="Nombre de usuario" id="usuarioLogin"></ion-input></ion-item>
+          <ion-item><ion-input label="Password" id="passwordLogin" type="password"></ion-input></ion-item>
+          <ion-button id="formLogin" expand="block">Login</ion-button>
+        </form>
+      </ion-content>
+    </ion-page>
+
+    <figure id="loaderContainer">
+      <img id="loader" src="./loader.gif" alt="loader" />
+    </figure>
+
+    <!--Pagina home-->
+    <ion-page id="home" class="ion-page">
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+          </ion-buttons>
+          <ion-title>Eventos</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <h1>Eventos</h1>
+        <ion-button id="navAgregarEvento" size="small">Agregar Evento</ion-button>
+
+        <div id="divEventos"></div>
+        <div id="divInformes" style="display: flex; gap: 30px; flex-wrap: wrap">
+          <p>
+            Biberones ingeridos:
+            <span style="font-weight: bold" id="spanBiberon"></span>
+          </p>
+          <p>
+            Tiempo desde último biberon:
+            <span style="font-weight: bold" id="spanBiberon2"></span>
+          </p>
+          <p>
+            Pañales usados:
+            <span style="font-weight: bold" id="spanPanial"></span>
+          </p>
+          <p>
+            Tiempo desde último pañal:
+            <span style="font-weight: bold" id="spanPanial2"></span>
+          </p>
         </div>
-      </div>
+        <div id="divEventosDia" style="margin-bottom: 50px"></div>
+        <div id="divEventosAntes"></div>
+      </ion-content>
+    </ion-page>
 
-      <!--Menú de navegación-->
-      <ion-menu content-id="main-content" id="menu">
-        <ion-header>
-          <ion-toolbar>
-            <ion-title>Menu</ion-title>
-          </ion-toolbar>
-        </ion-header>
-        <ion-content class="ion-padding">
-          <ion-list>
-            <ion-item href="/" id="navHome">
-              <ion-label>Home</ion-label>
-            </ion-item>
-            <ion-item id="navLogin" href="/login">
-              <ion-label>Login</ion-label>
-            </ion-item>
-            <ion-item id="navRegistro" href="/registro">
-              <ion-label>Registro</ion-label>
-            </ion-item>
+    <!--Pagina agregar eventos-->
+    <ion-page id="agregarEvento" class="ion-page">
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+          </ion-buttons>
+          <ion-title>Agregar Evento</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <h1>Agregar Evento</h1>
 
-            <ion-item id="navMapa" href="/verMapa">
-              <ion-label>Ver mapa</ion-label>
-            </ion-item>
-            <ion-item id="navLogout" href="/logout">
-              <ion-label>Cerrar sesión</ion-label>
-            </ion-item>
-          </ion-list>
-        </ion-content>
-      </ion-menu>
-      <div class="ion-page" id="main-content">
-        <ion-header>
-          <ion-toolbar>
-            <ion-buttons slot="start">
-              <ion-menu-button></ion-menu-button>
-            </ion-buttons>
-            <ion-title>Menu</ion-title>
-          </ion-toolbar>
-        </ion-header>
-        <ion-content class="ion-padding">
-          Tap the button in the toolbar to open the menu.
-        </ion-content>
-      </div>
+        <form>
+          <ion-select id="idCategoriaAgregarEvento" placeholder="--Seleccionar--"></ion-select>
+          <ion-input id="detalleAgregarEvento" label="Detalle"></ion-input>
+          <ion-input id="fechaAgregarEvento" type="datetime-local"></ion-input>
+          <ion-button id="formAgregarEvento" size="small">Agregar evento</ion-button>
+          <ion-button id="backHome" size="small">Volver</ion-button>
+        </form>
+      </ion-content>
+    </ion-page>
 
-      <!--Pagina de registro-->
-      <ion-page id="registro" class="ion-page">
-        <ion-header>
-          <ion-toolbar>
-            <ion-buttons slot="start">
-              <ion-menu-button></ion-menu-button>
-            </ion-buttons>
-            <ion-title>Registro</ion-title>
-          </ion-toolbar>
-        </ion-header>
-        <ion-content class="ion-padding">
-          <h1>Registro</h1>
-          <ion-item>
-            <ion-input id="usuarioRegistro" label="Usuario (*)"></ion-input>
-          </ion-item>
-          <ion-item
-            ><ion-input
-              id="passwordRegistro"
-              type="password"
-              label="Password (*)"
-            ></ion-input
-          ></ion-item>
-          <ion-item>
-            <ion-input
-              id="passwordRegistro2"
-              type="password"
-              label="Confirme su password (*)"
-            ></ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-select
-              label="Departamento"
-              id="idDepartamentoRegistro"
-              placeholder="--Seleccionar--"
-            ></ion-select>
-          </ion-item>
-          <ion-item style="display: none" id="itemCiudadRegistro">
-            <ion-select
-              label="Ciudad"
-              id="idCiudadRegistro"
-              style="display: none"
-              placeholder="--Seleccionar--"
-            ></ion-select>
-          </ion-item>
-          <ion-button expand="block" id="formRegistro">Registrar</ion-button>
-        </ion-content>
-      </ion-page>
+    <!--Plazas-->
+    <ion-page id="verMapa" class="ion-page">
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+          </ion-buttons>
+          <ion-title>Plazas</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <h1>Ver Plazas</h1>
 
-      <!--Pagina de login-->
-      <ion-page id="login" class="ion-page">
-        <ion-header>
-          <ion-toolbar>
-            <ion-buttons slot="start">
-              <ion-menu-button></ion-menu-button>
-            </ion-buttons>
-            <ion-title>Login</ion-title>
-          </ion-toolbar>
-        </ion-header>
-        <ion-content class="ion-padding">
-          <h1>Login</h1>
-          <form>
-            <ion-item
-              ><ion-input
-                label="Nombre de usuario"
-                id="usuarioLogin"
-              ></ion-input
-            ></ion-item>
-            <ion-item
-              ><ion-input
-                label="Password"
-                id="passwordLogin"
-                type="password"
-              ></ion-input
-            ></ion-item>
-            <ion-button id="formLogin" expand="block">Login</ion-button>
-          </form>
-        </ion-content>
-      </ion-page>
+        <div id="map"></div>
+      </ion-content>
+    </ion-page>
+  </ion-app>
 
-      <figure id="loaderContainer">
-        <img id="loader" src="./loader.gif" alt="loader" />
-      </figure>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="" defer></script>
+</body>
 
-      <!--Pagina home-->
-      <ion-page id="home" class="ion-page">
-        <ion-header>
-          <ion-toolbar>
-            <ion-buttons slot="start">
-              <ion-menu-button></ion-menu-button>
-            </ion-buttons>
-            <ion-title>Eventos</ion-title>
-          </ion-toolbar>
-        </ion-header>
-        <ion-content class="ion-padding">
-          <h1>Eventos</h1>
-          <ion-button id="navAgregarEvento" size="small"
-            >Agregar Evento</ion-button
-          >
-
-          <div id="divEventos"></div>
-          <div
-            id="divInformes"
-            style="display: flex; gap: 30px; flex-wrap: wrap"
-          >
-            <p>
-              Biberones ingeridos:
-              <span style="font-weight: bold" id="spanBiberon"></span>
-            </p>
-            <p>
-              Tiempo desde último biberon:
-              <span style="font-weight: bold" id="spanBiberon2"></span>
-            </p>
-            <p>
-              Pañales usados:
-              <span style="font-weight: bold" id="spanPanial"></span>
-            </p>
-            <p>
-              Tiempo desde último pañal:
-              <span style="font-weight: bold" id="spanPanial2"></span>
-            </p>
-          </div>
-          <div id="divEventosDia" style="margin-bottom: 50px"></div>
-          <div id="divEventosAntes"></div>
-        </ion-content>
-      </ion-page>
-
-      <!--Pagina agregar eventos-->
-      <ion-page id="agregarEvento" class="ion-page">
-        <ion-header>
-          <ion-toolbar>
-            <ion-buttons slot="start">
-              <ion-menu-button></ion-menu-button>
-            </ion-buttons>
-            <ion-title>Agregar Evento</ion-title>
-          </ion-toolbar>
-        </ion-header>
-        <ion-content class="ion-padding">
-          <h1>Agregar Evento</h1>
-
-          <form>
-            <ion-select
-              id="idCategoriaAgregarEvento"
-              placeholder="--Seleccionar--"
-            ></ion-select>
-            <ion-input id="detalleAgregarEvento" label="Detalle"></ion-input>
-            <ion-input
-              id="fechaAgregarEvento"
-              type="datetime-local"
-            ></ion-input>
-            <ion-button id="formAgregarEvento" size="small"
-              >Agregar evento</ion-button
-            >
-            <ion-button id="backHome" size="small">Volver</ion-button>
-          </form>
-        </ion-content>
-      </ion-page>
-
-      <!--Plazas-->
-      <ion-page id="verMapa" class="ion-page">
-        <ion-header>
-          <ion-toolbar>
-            <ion-buttons slot="start">
-              <ion-menu-button></ion-menu-button>
-            </ion-buttons>
-            <ion-title>Plazas</ion-title>
-          </ion-toolbar>
-        </ion-header>
-        <ion-content class="ion-padding">
-          <h1>Ver Plazas</h1>
-
-          <div id="map"></div>
-        </ion-content>
-      </ion-page>
-    </ion-app>
-
-    <script
-      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-      crossorigin=""
-    ></script>
-  </body>
 </html>

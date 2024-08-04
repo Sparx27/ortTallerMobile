@@ -91,5 +91,7 @@ select {
 }
 
 #map {
-  height: 180px;
+  height: 80%;
+  width: 90vw;
+  margin: 0 auto;
 }

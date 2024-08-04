@@ -110,35 +110,33 @@ async function mostrarEventos() {
       } else {
         const informes = calcularInformes(eventosDia);
         selector("#spanBiberon").innerHTML = informes.biberones;
-        selector("#spanBiberon2").innerHTML = `${
-          informes.ultBiberon == "--"
-            ? "--"
-            : informes.ultBiberon >= 60
+        selector("#spanBiberon2").innerHTML = `${informes.ultBiberon == "--"
+          ? "--"
+          : informes.ultBiberon >= 60
             ? Math.trunc(informes.ultBiberon / 60) +
-              " hrs : " +
-              Math.round(
-                (informes.ultBiberon / 60 -
-                  Math.trunc(informes.ultBiberon / 60)) *
-                  60
-              ) +
-              " mins"
+            " hrs : " +
+            Math.round(
+              (informes.ultBiberon / 60 -
+                Math.trunc(informes.ultBiberon / 60)) *
+              60
+            ) +
+            " mins"
             : informes.ultBiberon + " mins"
-        }`;
+          }`;
         selector("#spanPanial").innerHTML = informes.paniales;
-        selector("#spanPanial2").innerHTML = `${
-          informes.ultPanial == "--"
-            ? "--"
-            : informes.ultPanial >= 60
+        selector("#spanPanial2").innerHTML = `${informes.ultPanial == "--"
+          ? "--"
+          : informes.ultPanial >= 60
             ? Math.trunc(informes.ultPanial / 60) +
-              " hrs : " +
-              Math.round(
-                (informes.ultPanial / 60 -
-                  Math.trunc(informes.ultPanial / 60)) *
-                  60
-              ) +
-              " mins"
+            " hrs : " +
+            Math.round(
+              (informes.ultPanial / 60 -
+                Math.trunc(informes.ultPanial / 60)) *
+              60
+            ) +
+            " mins"
             : informes.ultPanial + " mins"
-        }`;
+          }`;
 
         eventosDia.forEach((e) => {
           let idImage = categorias.find((a) => a.id == e.idCategoria)
@@ -150,18 +148,16 @@ async function mostrarEventos() {
               <img alt="Silhouette of mountains" src="https://babytracker.develotion.com/imgs/${idImage}.png" />
             </ion-thumbnail>
             <ion-label>
-            ${
-              categorias.find((a) => a.id == e.idCategoria)
-                ? categorias.find((a) => a.id == e.idCategoria).tipo
-                : ""
+            ${categorias.find((a) => a.id == e.idCategoria)
+              ? categorias.find((a) => a.id == e.idCategoria).tipo
+              : ""
             }
             </ion-label>
             <ion-card-content>
               <p>${e.detalle}</p>
               <p>${e.fecha}</p>
             </ion-card-content>
-            <ion-button fill="clear" id="e-${
-              e.id
+            <ion-button fill="clear" id="e-${e.id
             }" class="btnEliminarEvento">Eliminar</ion-button>
           </ion-item>
         `;
@@ -182,18 +178,16 @@ async function mostrarEventos() {
               <img alt="Silhouette of mountains" src="https://babytracker.develotion.com/imgs/${idImage}.png" />
             </ion-thumbnail>
             <ion-label>
-            ${
-              categorias.find((a) => a.id == e.idCategoria)
-                ? categorias.find((a) => a.id == e.idCategoria).tipo
-                : ""
+            ${categorias.find((a) => a.id == e.idCategoria)
+              ? categorias.find((a) => a.id == e.idCategoria).tipo
+              : ""
             }
             </ion-label>
             <ion-card-content>
               <p>${e.detalle}</p>
               <p>${e.fecha}</p>
             </ion-card-content>
-            <ion-button fill="clear" id="e-${
-              e.id
+            <ion-button fill="clear" id="e-${e.id
             }" class="btnEliminarEvento">Eliminar</ion-button>
           </ion-item>          
          
@@ -289,7 +283,6 @@ selector("#navMapa").addEventListener("click", () => {
     document.querySelector("#menu").close();
   }
 });
-let map;
 
 function geolocalizacion() {
   let latitud;
@@ -301,11 +294,8 @@ function geolocalizacion() {
   );
 
   function success(position) {
-    console.log(position.coords);
     latitud = position.coords.latitude;
     longitud = position.coords.longitude;
-    console.log(location);
-    console.log(latitud);
     elMapa(latitud, longitud);
   }
   function mostrarError(error) {
@@ -313,29 +303,43 @@ function geolocalizacion() {
   }
 }
 
+let map;
 function elMapa(latitud, longitud) {
   if (map != null || map != undefined) {
     map.remove();
     map = null;
   }
-  map = L.map("map").setView(
+  map = L.map("map").fitWorld(
     [
       latitud ? latitud : -34.90371088968206,
       longitud ? longitud : -56.19058160486342,
     ],
     13
   );
-  L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+  L.tileLayer(`https://tile.openstreetmap.org/{z}/{x}/{y}.png`, {
     maxZoom: 19,
     attribution:
       '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
   }).addTo(map);
 
-  var marker = L.marker([
+  map.locate({ setView: true, maxZoom: 16 })
+
+  L.marker([
     latitud ? latitud : -34.90371088968206,
     longitud ? longitud : -56.19058160486342,
   ]).addTo(map);
+
+  function onLocationFound(e) {
+    var radius = e.accuracy;
+
+    L.marker(e.latlng).addTo(map)
+      .bindPopup("You are within " + radius + " meters from this point").openPopup();
+
+    L.circle(e.latlng, radius).addTo(map);
+  }
+
+  map.on('locationfound', onLocationFound);
 }
 
-window.addEventListener("reload", () => {});
+window.addEventListener("reload", () => { });
 export { mostrarEventos, geolocalizacion };
