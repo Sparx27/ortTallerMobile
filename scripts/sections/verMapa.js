@@ -29,7 +29,9 @@ function geolocalizacion() {
   function success(position) {
     latitud = position.coords.latitude;
     longitud = position.coords.longitude;
-    elMapa(latitud, longitud);
+    setTimeout(() => {
+      elMapa(latitud, longitud);
+    }, 2500);
   }
   function mostrarError(error) {
     elMapa();
@@ -37,7 +39,7 @@ function geolocalizacion() {
 }
 
 let map;
-function elMapa(latitud, longitud) {
+async function elMapa(latitud, longitud) {
   if (map != null || map != undefined) {
     map.remove();
     map = null;
@@ -45,8 +47,7 @@ function elMapa(latitud, longitud) {
   map = L.map("map").fitWorld();
   L.tileLayer(`https://tile.openstreetmap.org/{z}/{x}/{y}.png`, {
     maxZoom: 19,
-    attribution:
-      '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+    attribution: "© OpenStreetMap",
   }).addTo(map);
 
   map.locate({ setView: true, maxZoom: 16 });
@@ -69,12 +70,14 @@ function elMapa(latitud, longitud) {
   }
 
   map.on("locationfound", onLocationFound);
+
+  await obtenerPlazas();
 }
 
-function obtenerPlazas() {
+async function obtenerPlazas() {
   const usuario = getUsuario();
 
-  fetch(URL + "/plazas.php", {
+  fetch("https://babytracker.develotion.com/plazas.php", {
     headers: {
       "Content-Type": "application/json",
       apikey: usuario.apikey,
@@ -86,7 +89,25 @@ function obtenerPlazas() {
       if (data.codigo != 200) {
         return Promise.reject(data);
       }
+      let accesible;
+      let mascotas;
 
+      data.plazas.forEach((p) => {
+        let plaza = L.marker([p.latitud, p.longitud]).addTo(map);
+        let props;
+        if (p.accesible == 1) {
+          accesible = "♿";
+        } else {
+          accesible = "";
+        }
+        if (p.aceptaMascotas == 1) {
+          mascotas = "🐶";
+        } else {
+          mascotas = "";
+        }
+        props = accesible + mascotas;
+        if (props) plaza.bindPopup(`${props}`);
+      });
       //Hacer algo con el data que es del tipo:
       /* 
       {

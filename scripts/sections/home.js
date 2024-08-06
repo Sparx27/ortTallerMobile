@@ -197,22 +197,24 @@ function construirEventosDia(eventosDia, categorias) {
       ? categorias.find((a) => a.id == e.idCategoria).imagen
       : "";
     divEventosDia.innerHTML += `
-          <ion-item>
-            <ion-thumbnail slot="start">
+          <ion-item >
+            <ion-thumbnail slot="start"  class="aber">
               <img alt="imagen de evento" src="https://babytracker.develotion.com/imgs/${idImage}.png" />
-            </ion-thumbnail>
-            <ion-label>
+               <ion-label class="center">
             ${
               categorias.find((a) => a.id == e.idCategoria)
                 ? categorias.find((a) => a.id == e.idCategoria).tipo
                 : ""
             }
             </ion-label>
-            <ion-card-content>
+            </ion-thumbnail>
+             
+            <ion-card-content class="ion-card-style">
               <p>${e.detalle}</p>
               <p>${e.fecha}</p>
+
             </ion-card-content>
-            <ion-button fill="clear" id="e-${
+            <ion-button class="pruebaBoton"fill="clear" id="e-${
               e.id
             }" class="btnEliminarEvento">Eliminar</ion-button>
           </ion-item>

@@ -115,7 +115,6 @@ function mostrarMensaje(texto) {
 
 function Volver() {
   console.log("entró");
-  console.log(ruteo.detail);
   ruteo.back();
 }
 

@@ -2,6 +2,7 @@ import { mostrarSeccion, selector, showToaster } from "./helpers.js";
 import { getUsuario, logout } from "./usuario.js";
 import { mostrarEventos } from "./sections/home.js";
 
+import "./helpers.js";
 import "./sections/registro.js";
 import "./sections/login.js";
 import "./sections/home.js";

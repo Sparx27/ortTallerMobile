@@ -99,3 +99,24 @@ select {
 .ion-page {
   padding-bottom: 40px !important;
 }
+
+.leaflet-popup-content {
+  font-weight: 20px;
+  text-align: center;
+}
+
+.aber {
+  margin-bottom: 25px;
+}
+
+.input-wrapper {
+  justify-content: space-between !important;
+}
+
+.ion-card-style {
+  width: 200px !important;
+}
+
+.center {
+  text-align: center;
+}
