@@ -1,4 +1,9 @@
-import { mostrarSeccion, selector, showToaster } from "./helpers.js";
+import {
+  mostrarSeccion,
+  selector,
+  showLoader,
+  showToaster,
+} from "./helpers.js";
 import { getUsuario, logout } from "./usuario.js";
 import { mostrarEventos } from "./sections/home.js";
 

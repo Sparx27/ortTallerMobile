@@ -108,24 +108,6 @@ async function obtenerPlazas() {
         props = accesible + mascotas;
         if (props) plaza.bindPopup(`${props}`);
       });
-      //Hacer algo con el data que es del tipo:
-      /* 
-      {
-        "codigo": 200,
-        "plazas": [
-          {
-            "idPlaza": 87423,
-            "latitud": -34.8744554000000022142558009363710880279541015625,
-            "longitud": -55.11719719999999966830728226341307163238525390625,
-            "accesible": 1,
-            "aceptaMascotas": 1
-          },
-          {
-            ...
-          },
-          ...
-      }
-      */
     })
     .catch((errorData) => {
       if (errorData.mensaje) {

@@ -28,6 +28,7 @@
     <script src="./JS/main.js" type="module" defer></script>
 
     <link rel="stylesheet" href="./styles.css" />
+    <script src="capacitor.js"></script>
     <title>App babys</title>
   </head>
 
@@ -43,13 +44,6 @@
         <ion-route url="/verMapa" component="verMapa"></ion-route>
       </ion-router>
       <ion-nav></ion-nav>
-
-      <!--Toaster, ver para cambiar a toster de ionic-->
-      <div id="toaster-container">
-        <div id="toaster">
-          <p id="toasterMensaje"></p>
-        </div>
-      </div>
 
       <!--Menú de navegación-->
       <ion-menu content-id="main-content" id="menu">
@@ -187,35 +181,68 @@
           </ion-toolbar>
         </ion-header>
         <ion-content class="ion-padding">
-          <h1>Eventos</h1>
-          <ion-button id="navAgregarEvento" size="small"
-            >Agregar Evento</ion-button
-          >
+          <div class="home-btns">
+            <ion-button id="navAgregarEvento" size="small"
+              >Agregar Evento</ion-button
+            >
+            <ion-button size="small" onclick="modal.isOpen = true"
+              >Ver informe</ion-button
+            >
+          </div>
 
           <div id="divEventos"></div>
-          <div
-            id="divInformes"
-            style="display: flex; gap: 30px; flex-wrap: wrap"
-          >
-            <p>
-              Biberones ingeridos:
-              <span style="font-weight: bold" id="spanBiberon"></span>
-            </p>
-            <p>
-              Tiempo desde último biberon:
-              <span style="font-weight: bold" id="spanBiberon2"></span>
-            </p>
-            <p>
-              Pañales usados:
-              <span style="font-weight: bold" id="spanPanial"></span>
-            </p>
-            <p>
-              Tiempo desde último pañal:
-              <span style="font-weight: bold" id="spanPanial2"></span>
-            </p>
-          </div>
+
           <div id="divEventosDia" style="margin-bottom: 50px"></div>
           <div id="divEventosAntes"></div>
+
+          <!--Modal-->
+
+          <ion-modal>
+            <ion-header>
+              <ion-toolbar>
+                <ion-title>Informe</ion-title>
+                <ion-buttons slot="end">
+                  <ion-button onclick="modal.isOpen = false">Cerrar</ion-button>
+                </ion-buttons>
+              </ion-toolbar>
+            </ion-header>
+            <ion-content class="ion-padding">
+              <div id="divInformes">
+                <table>
+                  <tbody>
+                    <tr>
+                      <td class="td-title">Biberones ingeridos:</td>
+                      <td class="td-info">
+                        <span style="font-weight: bold" id="spanBiberon">
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="td-title">Ultimo biberon:</td>
+                      <td class="td-info">
+                        <span
+                          style="font-weight: bold"
+                          id="spanBiberon2"
+                        ></span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="td-title">Pañales usados:</td>
+                      <td class="td-info">
+                        <span style="font-weight: bold" id="spanPanial"></span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="td-title">Ultimo pañal:</td>
+                      <td class="td-info">
+                        <span style="font-weight: bold" id="spanPanial2"></span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </ion-content>
+          </ion-modal>
         </ion-content>
       </ion-page>
 
@@ -274,5 +301,8 @@
       crossorigin=""
       defer
     ></script>
+    <script>
+      var modal = document.querySelector("ion-modal");
+    </script>
   </body>
 </html>
