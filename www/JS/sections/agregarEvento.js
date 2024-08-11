@@ -59,8 +59,7 @@ selector("#formAgregarEvento").addEventListener("click", () => {
         showToaster(data.mensaje);
         limpiarInputs([
           selector("#idCategoriaAgregarEvento"),
-          selector("#detalleAgregarEvento"),
-          selector("#fechaAgregarEvento"),
+          selector("#detalleAgregarEvento")
         ]);
         hideLoader();
       })

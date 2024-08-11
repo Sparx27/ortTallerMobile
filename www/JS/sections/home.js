@@ -24,7 +24,6 @@ selector("#navHome").addEventListener("click", () => {
 
 async function obtenerEventos() {
   const usuario = getUsuario();
-  /* selector("#divEventos").innerHTML = ""; */
 
   return fetch(URL + `/eventos.php?idUsuario=${usuario.userid}`, {
     headers: {
@@ -62,6 +61,7 @@ async function mostrarEventos() {
   const divEventosDia = selector("#divEventosDia");
   const divEventosAntes = selector("#divEventosAntes");
   const divInformes = selector("#divInformes");
+
   divEventosDia.innerHTML = "<h1>Eventos del día</h1>";
   divEventosAntes.innerHTML = "<h2>Eventos anteriores</h2>";
   divInformes.style.display = "flex";
@@ -96,12 +96,14 @@ async function mostrarEventos() {
       divEventosDia.innerHTML = "<h1>Eventos del día</h1><h3>Aún no se han agregado eventos</h3>";
       construirEventosDia(null)
     } else {
+      divEventosDia.innerHTML = "<h1>Eventos del día</h1>"
       construirEventosDia(eventosDia, categorias);
     }
 
     if (eventosPasados.length == 0) {
       divEventosAntes.innerHTML = "<h1>Eventos anteriores</h1><h3>Aún no se han agregado eventos</h3>";
     } else {
+      divEventosAntes.innerHTML = "<h1>Eventos anteriores</h1>"
       construirEventosPasados(eventosPasados, categorias);
     }
 

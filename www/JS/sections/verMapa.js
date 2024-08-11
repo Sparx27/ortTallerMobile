@@ -1,12 +1,12 @@
 import {
   showToaster,
-  URL,
   selector,
   mostrarSeccion,
   showLoader,
   hideLoader,
 } from "../helpers.js";
 import { getUsuario } from "../usuario.js";
+const cusIco = new URL('../../assets/custom_icon.png', import.meta.url).href
 
 selector("#navMapa").addEventListener("click", () => {
   const usuario = getUsuario();
@@ -34,9 +34,13 @@ function geolocalizacion() {
     }, 1000);
   }
   function mostrarError(error) {
-    elMapa();
+    setTimeout(() => {
+      elMapa();
+    }, 1000)
   }
 }
+
+
 
 let map;
 async function elMapa(latitud, longitud) {
@@ -50,23 +54,34 @@ async function elMapa(latitud, longitud) {
     attribution: "© OpenStreetMap",
   }).addTo(map);
 
-  map.locate({ setView: true, maxZoom: 16 });
+  if (latitud == undefined || longitud == undefined) {
+    map.setView([-34.90371088968206, -56.19058160486342], 16)
+  }
+  else {
+    map.locate({ setView: true, maxZoom: 16 });
+  }
+
+  var customIcon = L.icon({
+    iconUrl: cusIco,  // La ruta a tu imagen de icono
+    iconSize: [38, 38],              // Tamaño del icono
+    iconAnchor: [19, 38],            // Punto del icono que estará en la posición del marcador
+    popupAnchor: [0, -38]            // Punto desde donde se abrirá el popup
+  });
 
   L.marker([
     latitud ? latitud : -34.90371088968206,
     longitud ? longitud : -56.19058160486342,
-  ]).addTo(map);
+  ], { icon: customIcon }).addTo(map).bindPopup("No fue posible encontrar su ubicación").openPopup();
 
   function onLocationFound(e) {
     var radius = e.accuracy;
 
-    L.marker(e.latlng)
+    L.marker(e.latlng, { icon: customIcon })
       .addTo(map)
       .bindPopup("Usted se encuentra aquí")
       .openPopup();
 
     L.circle(e.latlng, radius).addTo(map);
-    hideLoader();
   }
 
   map.on("locationfound", onLocationFound);
@@ -108,8 +123,10 @@ async function obtenerPlazas() {
         props = accesible + mascotas;
         if (props) plaza.bindPopup(`${props}`);
       });
+      hideLoader();
     })
     .catch((errorData) => {
+      hideLoader();
       if (errorData.mensaje) {
         showToaster(errorData.mensaje);
       } else {

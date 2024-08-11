@@ -144,9 +144,7 @@
           <ion-button size="small" onclick="modal.isOpen = true">Ver Informe</ion-button>
         </div>
 
-        <div id="divEventosDia">
-          <div id="divEventos"></div>
-        </div>
+        <div id="divEventosDia"></div>
 
         <!--Modal-->
 
@@ -231,7 +229,8 @@
         <form>
           <ion-select id="idCategoriaAgregarEvento" placeholder="--Seleccionar Categoría--"></ion-select>
           <ion-input id="detalleAgregarEvento" label="Detalle"></ion-input>
-          <ion-input id="fechaAgregarEvento" type="datetime-local"></ion-input>
+          <ion-datetime id="fechaAgregarEvento" presentation="date-time" prefer-wheel="true"
+            style="margin: 10px 0 20px;"></ion-datetime>
           <ion-button id="formAgregarEvento" size="small">Agregar evento</ion-button>
         </form>
         <ion-button id="backHome" class="volver" size="small">Volver</ion-button>
