@@ -21,7 +21,7 @@ selector("#formAgregarEvento").addEventListener("click", () => {
   showLoader();
   const usuario = getUsuario();
   let idCategoria = null;
-  if (Number(selectorValue("#idCategoriaAgregarEvento")) != 0) {
+  if (Number(selectorValue("#idCategoriaAgregarEvento")) != 0 && !isNaN(Number(selectorValue("#idCategoriaAgregarEvento")))) {
     idCategoria = Number(selectorValue("#idCategoriaAgregarEvento"));
   }
   const detalle = selectorValue("#detalleAgregarEvento");
@@ -83,7 +83,6 @@ selector("#formAgregarEvento").addEventListener("click", () => {
 async function getCategorias() {
   const usuario = getUsuario();
   const categoriasSelect = selector("#idCategoriaAgregarEvento");
-  categoriasSelect.innerHTML = "";
   return fetch(URL + "/categorias.php", {
     headers: {
       "Content-Type": "application/json",
@@ -99,6 +98,7 @@ async function getCategorias() {
         return Promise.reject(data);
       }
 
+      categoriasSelect.innerHTML = ""
       data.categorias.forEach((a) => {
         categoriasSelect.innerHTML += `<ion-select-option value="${a.id}">${a.tipo}</ion-select-option>`;
       });

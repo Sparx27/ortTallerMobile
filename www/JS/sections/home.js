@@ -74,25 +74,27 @@ async function mostrarEventos() {
       getCategorias(),
     ]);
     if (eventos) {
-      //Ordenar eventos por fechas y hora
-      eventos.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
 
       //Separar los eventos del día
-
       eventos.forEach((e) => {
         if (
           new Date(e.fecha).setHours(0, 0, 0, 0) ==
           new Date().setHours(0, 0, 0, 0)
         ) {
-          eventosDia.unshift(e);
+          eventosDia.push(e);
         } else {
-          eventosPasados.unshift(e);
+          eventosPasados.push(e);
         }
       });
+
+      //Ordenar eventos por fechas y hora
+      eventosDia.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
+      eventosPasados.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
     }
 
     if (eventosDia.length == 0) {
       divEventosDia.innerHTML = "<h1>Eventos del día</h1><h3>Aún no se han agregado eventos</h3>";
+      construirEventosDia(null)
     } else {
       construirEventosDia(eventosDia, categorias);
     }
@@ -113,9 +115,55 @@ async function mostrarEventos() {
   }
 }
 
+function construirEventosDia(eventosDia, categorias) {
+  if (eventosDia == null || eventosDia == undefined) {
+    const informes = calcularInformes(null);
+
+    selector("#spanBiberon").innerHTML = informes.biberones;
+    selector("#spanBiberon2").innerHTML = informes.ultBiberon;
+    selector("#spanPanial").innerHTML = informes.paniales;
+    selector("#spanPanial2").innerHTML = informes.ultPanial;
+  }
+  else {
+    const informes = calcularInformes(eventosDia);
+    selector("#spanBiberon").innerHTML = informes.biberones;
+    selector("#spanBiberon2").innerHTML = `${informes.ultBiberon == "--"
+      ? "--"
+      : informes.ultBiberon >= 60
+        ? Math.trunc(informes.ultBiberon / 60) +
+        " hrs : " +
+        Math.round(
+          (informes.ultBiberon / 60 - Math.trunc(informes.ultBiberon / 60)) * 60
+        ) +
+        " mins"
+        : informes.ultBiberon + " mins"
+      }`;
+    selector("#spanPanial").innerHTML = informes.paniales;
+    selector("#spanPanial2").innerHTML = `${informes.ultPanial == "--"
+      ? "--"
+      : informes.ultPanial >= 60
+        ? Math.trunc(informes.ultPanial / 60) +
+        " hrs : " +
+        Math.round(
+          (informes.ultPanial / 60 - Math.trunc(informes.ultPanial / 60)) * 60
+        ) +
+        " mins"
+        : informes.ultPanial + " mins"
+      }`;
+
+    eventosDia.forEach((e) => {
+      let idImage = categorias.find((a) => a.id == e.idCategoria)
+        ? categorias.find((a) => a.id == e.idCategoria).imagen
+        : "";
+      divEventosDia.innerHTML += construirCard(e, categorias, idImage);
+    });
+  }
+}
+
 function calcularInformes(eventos) {
   //Se debe ordenar nuevamente para que tome por hora el ultimo
-  eventos.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
+  let eventosCalcular = eventos?.map(e => e)
+  eventosCalcular?.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
   let res = {
     biberones: 0,
     ultBiberon: "--",
@@ -123,63 +171,27 @@ function calcularInformes(eventos) {
     ultPanial: "--",
   };
 
-  eventos.forEach((e) => {
-    if (e.idCategoria == 35) {
-      res.biberones++;
-      res.ultBiberon = Math.trunc(
-        (new Date() - new Date(e.fecha)) / (1000 * 60)
-      );
-    }
-    if (e.idCategoria == 33) {
-      res.paniales++;
-      res.ultPanial = Math.trunc(
-        (new Date() - new Date(e.fecha)) / (1000 * 60)
-      );
-    }
-  });
-
-  res.ultBiberon;
-
+  if (eventosCalcular?.length > 0) {
+    eventosCalcular.forEach((e) => {
+      if (e.idCategoria == 35) {
+        res.biberones++;
+        res.ultBiberon = Math.trunc(
+          (new Date() - new Date(e.fecha)) / (1000 * 60)
+        );
+      }
+      if (e.idCategoria == 33) {
+        res.paniales++;
+        res.ultPanial = Math.trunc(
+          (new Date() - new Date(e.fecha)) / (1000 * 60)
+        );
+      }
+    });
+  }
   return res;
 }
 
-function construirEventosDia(eventosDia, categorias) {
-  const informes = calcularInformes(eventosDia);
-  selector("#spanBiberon").innerHTML = informes.biberones;
-  selector("#spanBiberon2").innerHTML = `${informes.ultBiberon == "--"
-    ? "--"
-    : informes.ultBiberon >= 60
-      ? Math.trunc(informes.ultBiberon / 60) +
-      " hrs : " +
-      Math.round(
-        (informes.ultBiberon / 60 - Math.trunc(informes.ultBiberon / 60)) * 60
-      ) +
-      " mins"
-      : informes.ultBiberon + " mins"
-    }`;
-  selector("#spanPanial").innerHTML = informes.paniales;
-  selector("#spanPanial2").innerHTML = `${informes.ultPanial == "--"
-    ? "--"
-    : informes.ultPanial >= 60
-      ? Math.trunc(informes.ultPanial / 60) +
-      " hrs : " +
-      Math.round(
-        (informes.ultPanial / 60 - Math.trunc(informes.ultPanial / 60)) * 60
-      ) +
-      " mins"
-      : informes.ultPanial + " mins"
-    }`;
-
-  eventosDia.forEach((e) => {
-    let idImage = categorias.find((a) => a.id == e.idCategoria)
-      ? categorias.find((a) => a.id == e.idCategoria).imagen
-      : "";
-    divEventosDia.innerHTML += construirCard(e, categorias, idImage);
-  });
-}
-
 function construirEventosPasados(eventosPasados, categorias) {
-  selector("#divEventosAntes").innerHTML = "<h2>DIAS ANTERIORES</h2>";
+  selector("#divEventosAntes").innerHTML = "<h2>Eventos anteriores</h2>";
   eventosPasados.forEach((e) => {
     let idImage = categorias.find((a) => a.id == e.idCategoria)
       ? categorias.find((a) => a.id == e.idCategoria).imagen

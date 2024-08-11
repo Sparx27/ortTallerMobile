@@ -62,7 +62,7 @@ async function elMapa(latitud, longitud) {
 
     L.marker(e.latlng)
       .addTo(map)
-      .bindPopup("You are within " + radius + " meters from this point")
+      .bindPopup("Usted se encuentra aquí")
       .openPopup();
 
     L.circle(e.latlng, radius).addTo(map);

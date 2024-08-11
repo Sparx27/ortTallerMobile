@@ -32,6 +32,10 @@ function registro() {
     mostrarMensaje("Debe confirmar su password");
   } else if (password != password2) {
     mostrarMensaje("Su password no coincide con el de confirmación");
+  } else if (isNaN(idDepartamento)) {
+    mostrarMensaje("Debe seleccionar un departamento")
+  } else if (isNaN(idCiudad)) {
+    mostrarMensaje("Debe seleccionar una ciudad")
   } else {
     fetch(URL + "/usuarios.php", {
       method: "Post",
@@ -154,4 +158,8 @@ function getCiudades() {
         showToaster("Error en la obtención de los departamentos");
       }
     });
+}
+
+export {
+  getDepartamentos
 }

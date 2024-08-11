@@ -2,6 +2,8 @@ import { menuIncognito } from "./main.js";
 import { logout } from "./usuario.js";
 import { mostrarEventos } from "./sections/home.js";
 import { geolocalizacion } from "./sections/verMapa.js";
+import { getDepartamentos } from "./sections/registro.js";
+import { getCategorias } from "./sections/agregarEvento.js";
 
 const URL = "https://babytracker.develotion.com";
 
@@ -90,6 +92,7 @@ function manejarRouter(e) {
       break;
     case "/registro":
       mostrarSeccion("registro");
+      getDepartamentos()
       break;
     case "/login":
       mostrarSeccion("login");
@@ -99,6 +102,7 @@ function manejarRouter(e) {
       break;
     case "/agregarEvento":
       mostrarSeccion("agregarEvento");
+      getCategorias()
       break;
     case "/verMapa":
       mostrarSeccion("verMapa");
