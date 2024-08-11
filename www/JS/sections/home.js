@@ -7,7 +7,6 @@ import {
   hideLoader,
   showToaster,
   manejarEl401,
-  ruteo,
 } from "../helpers.js";
 import { getUsuario, logout } from "../usuario.js";
 import { getCategorias } from "./agregarEvento.js";

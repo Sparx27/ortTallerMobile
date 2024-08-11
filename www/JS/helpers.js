@@ -78,7 +78,6 @@ let ruteo = selector("#ruteo");
 ruteo.addEventListener("ionRouteWillChange", manejarRouter);
 
 function manejarRouter(e) {
-  console.log(e);
   let rutaDestino = e.detail.to;
   switch (rutaDestino) {
     case "/":
@@ -113,19 +112,6 @@ function mostrarMensaje(texto) {
   document.body.appendChild(toast);
 }
 
-function Volver() {
-  console.log("entró");
-  ruteo.back();
-}
-
-document.querySelectorAll(".volver").forEach((e) => {
-  e.innerHTML = `<ion-button id="backHome" size="small">Volver</ion-button>`;
-});
-
-document.querySelectorAll(".volver").forEach((e) => {
-  e.addEventListener("click", Volver);
-});
-
 export {
   URL,
   selector,
@@ -138,5 +124,4 @@ export {
   limpiarInputs,
   manejarEl401,
   mostrarMensaje,
-  ruteo,
 };
