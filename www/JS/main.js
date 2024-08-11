@@ -53,7 +53,6 @@ function inicioIncognito() {
 
 function inicioUsuario() {
   menuUsuario();
-  mostrarEventos();
   sectionHome.style.display = "block";
 }
 

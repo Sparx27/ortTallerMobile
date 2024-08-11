@@ -91,7 +91,7 @@ select {
 }
 
 #map {
-  height: 90%;
+  height: 80%;
   width: 90vw;
   margin: 0 auto;
 }
@@ -114,11 +114,11 @@ select {
 }
 
 .ion-card-style {
-  width:70% !important;
+  width: 70% !important;
 }
 
 .item-inner {
-  padding-right:0 !important; 
+  padding-right: 0 !important;
 }
 
 .center {
@@ -144,7 +144,7 @@ h1,
 h2 {
   color: #0f3f91;
   font-weight: bold;
- padding-left: 18px;
+  padding-left: 18px;
 }
 
 .card-title {
@@ -152,6 +152,7 @@ h2 {
   align-items: center;
   gap: 10px;
 }
+
 .card-title img {
   border-radius: 30%;
 }
@@ -168,8 +169,7 @@ h2 {
 }
 
 .home-btns {
-  display: flex;
-  justify-content: center;
-  gap: 5px;
-  margin: 5px 0 20px 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
 }

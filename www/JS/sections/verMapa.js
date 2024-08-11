@@ -31,7 +31,7 @@ function geolocalizacion() {
     longitud = position.coords.longitude;
     setTimeout(() => {
       elMapa(latitud, longitud);
-    }, 2500);
+    }, 1000);
   }
   function mostrarError(error) {
     elMapa();

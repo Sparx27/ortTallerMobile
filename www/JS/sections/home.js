@@ -24,7 +24,7 @@ selector("#navHome").addEventListener("click", () => {
 
 async function obtenerEventos() {
   const usuario = getUsuario();
-  selector("#divEventos").innerHTML = "";
+  /* selector("#divEventos").innerHTML = ""; */
 
   return fetch(URL + `/eventos.php?idUsuario=${usuario.userid}`, {
     headers: {
@@ -57,29 +57,17 @@ async function obtenerEventos() {
     });
 }
 
-// Problemas en el cors
-async function obtenerImgsCategorias() {
-  const usuario = getUsuario();
-
-  return fetch("https://babytracker.develotion.com/imgs/1.png", {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-    .then((res) => res.json())
-    .then((img) => console.log(img))
-    .catch((dataError) => showToaster("Algo salio mal obteniendo la imagen"));
-}
-
 async function mostrarEventos() {
   showLoader();
   const divEventosDia = selector("#divEventosDia");
   const divEventosAntes = selector("#divEventosAntes");
   const divInformes = selector("#divInformes");
-  divEventosDia.innerHTML = "<h2>ESTE DIA</h2>";
-  divEventosAntes.innerHTML = "<h2>DIAS ANTERIORES</h2>";
+  divEventosDia.innerHTML = "<h1>Eventos del día</h1>";
+  divEventosAntes.innerHTML = "<h2>Eventos anteriores</h2>";
   divInformes.style.display = "flex";
 
+  const eventosDia = [];
+  const eventosPasados = [];
   try {
     const [eventos, categorias] = await Promise.all([
       obtenerEventos(),
@@ -90,8 +78,7 @@ async function mostrarEventos() {
       eventos.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
 
       //Separar los eventos del día
-      const eventosDia = [];
-      const eventosPasados = [];
+
       eventos.forEach((e) => {
         if (
           new Date(e.fecha).setHours(0, 0, 0, 0) ==
@@ -102,30 +89,25 @@ async function mostrarEventos() {
           eventosPasados.unshift(e);
         }
       });
-
-      if (eventosDia.length == 0) {
-        divInformes.style.display = "none";
-        divEventosDia.innerHTML = "<h3>Aún no se han agregado eventos</h3>";
-      } else {
-        construirEventosDia(eventosDia, categorias);
-      }
-
-      if (eventosPasados.length == 0) {
-        divEventosAntes.innerHTML = "<h3>Aún no se han agregado eventos</h3>";
-      } else {
-        construirEventosPasados(eventosPasados, categorias);
-      }
-
-      const btns = document.querySelectorAll(".btnEliminarEvento");
-      btns.forEach((b) => {
-        b.addEventListener("click", borrarEvento);
-      });
-    } else {
-      divInformes.style.display = "none";
-      divEventosDia.innerHTML = "";
-      divEventosAntes.innerHTML = "";
-      selector("#divEventos").innerHTML = "Aún no se han agregado eventos";
     }
+
+    if (eventosDia.length == 0) {
+      divEventosDia.innerHTML = "<h1>Eventos del día</h1><h3>Aún no se han agregado eventos</h3>";
+    } else {
+      construirEventosDia(eventosDia, categorias);
+    }
+
+    if (eventosPasados.length == 0) {
+      divEventosAntes.innerHTML = "<h1>Eventos anteriores</h1><h3>Aún no se han agregado eventos</h3>";
+    } else {
+      construirEventosPasados(eventosPasados, categorias);
+    }
+
+    const btns = document.querySelectorAll(".btnEliminarEvento");
+    btns.forEach((b) => {
+      b.addEventListener("click", borrarEvento);
+    });
+
   } finally {
     hideLoader();
   }
@@ -162,34 +144,31 @@ function calcularInformes(eventos) {
 }
 
 function construirEventosDia(eventosDia, categorias) {
-  selector("#divEventosDia").innerHTML = "<h2>ESTE DIA</h2>";
   const informes = calcularInformes(eventosDia);
   selector("#spanBiberon").innerHTML = informes.biberones;
-  selector("#spanBiberon2").innerHTML = `${
-    informes.ultBiberon == "--"
-      ? "--"
-      : informes.ultBiberon >= 60
+  selector("#spanBiberon2").innerHTML = `${informes.ultBiberon == "--"
+    ? "--"
+    : informes.ultBiberon >= 60
       ? Math.trunc(informes.ultBiberon / 60) +
-        " hrs : " +
-        Math.round(
-          (informes.ultBiberon / 60 - Math.trunc(informes.ultBiberon / 60)) * 60
-        ) +
-        " mins"
+      " hrs : " +
+      Math.round(
+        (informes.ultBiberon / 60 - Math.trunc(informes.ultBiberon / 60)) * 60
+      ) +
+      " mins"
       : informes.ultBiberon + " mins"
-  }`;
+    }`;
   selector("#spanPanial").innerHTML = informes.paniales;
-  selector("#spanPanial2").innerHTML = `${
-    informes.ultPanial == "--"
-      ? "--"
-      : informes.ultPanial >= 60
+  selector("#spanPanial2").innerHTML = `${informes.ultPanial == "--"
+    ? "--"
+    : informes.ultPanial >= 60
       ? Math.trunc(informes.ultPanial / 60) +
-        " hrs : " +
-        Math.round(
-          (informes.ultPanial / 60 - Math.trunc(informes.ultPanial / 60)) * 60
-        ) +
-        " mins"
+      " hrs : " +
+      Math.round(
+        (informes.ultPanial / 60 - Math.trunc(informes.ultPanial / 60)) * 60
+      ) +
+      " mins"
       : informes.ultPanial + " mins"
-  }`;
+    }`;
 
   eventosDia.forEach((e) => {
     let idImage = categorias.find((a) => a.id == e.idCategoria)
@@ -216,11 +195,10 @@ function construirCard(e, categorias, idImage) {
               <ion-card-title class="card-title" style="font-size: 22px">
                 <img alt="imagen de evento" src="https://babytracker.develotion.com/imgs/${idImage}.png" />
 
-                 ${
-                   categorias.find((a) => a.id == e.idCategoria)
-                     ? categorias.find((a) => a.id == e.idCategoria).tipo
-                     : ""
-                 }</ion-card-title
+                 ${categorias.find((a) => a.id == e.idCategoria)
+      ? categorias.find((a) => a.id == e.idCategoria).tipo
+      : ""
+    }</ion-card-title
               >
             </ion-card-header>
 
@@ -275,5 +253,12 @@ function borrarEvento(e) {
       }
     });
 }
+
+selector("#btnEventosAnteriores").addEventListener("click", () => {
+  mostrarSeccion("eventosAnteriores")
+})
+selector("#backEventos").addEventListener("click", () => {
+  mostrarSeccion("home")
+})
 
 export { mostrarEventos, borrarEvento };

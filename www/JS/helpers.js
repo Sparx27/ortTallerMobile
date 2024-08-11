@@ -84,6 +84,10 @@ function manejarRouter(e) {
       mostrarSeccion("home");
       mostrarEventos();
       break;
+    case "/eventosAnteriores":
+      mostrarSeccion("eventosAnteriores");
+      mostrarEventos();
+      break;
     case "/registro":
       mostrarSeccion("registro");
       break;
